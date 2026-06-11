@@ -1,0 +1,39 @@
+title: jaalso
+tagline: security write-ups & lab notes
+description: >-
+  Lab write-ups, CTF solutions, and security notes by Jaime — SOC analyst
+  and junior pentester in training, Zürich.
+author: Jaime
+url: "https://jaalso.github.io"
+baseurl: ""
+
+# --- profile links (edit these) ---
+github_user:  jaalso
+htb_user:     Bornia01
+thm_user:     jaalsove
+
+# --- build ---
+permalink: /:year/:month/:day/:title/
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  syntax_highlighter: rouge
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# jekyll-feed / seo-tag are both supported on GitHub Pages safe mode.
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post

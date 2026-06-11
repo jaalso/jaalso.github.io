@@ -1,0 +1,28 @@
+---
+layout: default
+title: Tags
+permalink: /tags/
+---
+<section class="hero" style="padding-bottom:18px">
+  <div class="prompt"><span class="g">{{ site.github_user }}@kali</span>:<span class="p">~</span>$ grep -r tags/</div>
+  <h1 style="font-size:24px;margin-top:12px">Tags</h1>
+</section>
+
+<div class="tag-cloud">
+  {% assign sorted_tags = site.tags | sort %}
+  {% for tag in sorted_tags %}
+  <a href="#{{ tag[0] | slugify }}">{{ tag[0] }} <span class="count">{{ tag[1].size }}</span></a>
+  {% endfor %}
+</div>
+
+{% for tag in sorted_tags %}
+<div class="tag-group" id="{{ tag[0] | slugify }}">
+  <h2>{{ tag[0] }}</h2>
+  {% for post in tag[1] %}
+  <article class="post-item">
+    <div class="date">{{ post.date | date: "%Y-%m-%d" }}</div>
+    <h2 style="font-size:15px"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+  </article>
+  {% endfor %}
+</div>
+{% endfor %}

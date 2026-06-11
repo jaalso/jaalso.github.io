@@ -1,0 +1,57 @@
+---
+layout: default
+title: Write-ups
+permalink: /writeups/
+---
+<section class="hero" style="padding-bottom:18px">
+  <div class="prompt"><span class="g">{{ site.github_user }}@kali</span>:<span class="p">~</span>$ ls -la writeups/</div>
+  <h1 style="font-size:24px;margin-top:12px">Write-ups</h1>
+  <p>Full write-ups are published here as posts; the rest link out to the source repo.
+  Filter by keyword, tool, or tag.</p>
+</section>
+
+<input class="filter" id="filter" type="text" placeholder="filter… (e.g. wazuh, phishing, python)" aria-label="Filter write-ups">
+
+<div class="sec">// <span>posts</span></div>
+<div id="posts-list">
+{% for post in site.posts %}
+<article class="post-item filter-item" data-search="{{ post.title | downcase }} {{ post.tags | join: ' ' | downcase }}">
+  <div class="date">{{ post.date | date: "%Y-%m-%d" }}{% if post.category %} · {{ post.category }}{% endif %}</div>
+  <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+  <p>{{ post.excerpt | strip_html | truncate: 180 }}</p>
+  {% if post.tags.size > 0 %}<div class="tags">{% for tag in post.tags %}<a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a>{% endfor %}</div>{% endif %}
+</article>
+{% endfor %}
+</div>
+
+<div class="sec" style="margin-top:34px">// <span>linked repos</span></div>
+<div id="external-list">
+{% for item in site.data.external %}
+<article class="post-item filter-item" data-search="{{ item.title | downcase }} {{ item.tags | join: ' ' | downcase }} {{ item.repo | downcase }}">
+  <span class="badge ext">REPO</span>
+  <h2><a href="{{ item.url }}" target="_blank" rel="noopener">{{ item.title }}</a></h2>
+  <p style="color:var(--dim)">github.com/{{ site.github_user }}/{{ item.repo }}</p>
+  {% if item.tags %}<div class="tags">{% for tag in item.tags %}<a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a>{% endfor %}</div>{% endif %}
+</article>
+{% endfor %}
+</div>
+
+<p id="noresults" style="display:none;color:var(--dim);margin-top:20px">no matches.</p>
+
+<script>
+(function () {
+  var box = document.getElementById('filter');
+  var items = document.querySelectorAll('.filter-item');
+  var none = document.getElementById('noresults');
+  box.addEventListener('input', function () {
+    var q = box.value.trim().toLowerCase();
+    var shown = 0;
+    items.forEach(function (el) {
+      var match = el.getAttribute('data-search').indexOf(q) !== -1;
+      el.style.display = match ? '' : 'none';
+      if (match) shown++;
+    });
+    none.style.display = shown === 0 ? 'block' : 'none';
+  });
+})();
+</script>

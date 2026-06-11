@@ -1,0 +1,36 @@
+---
+layout: default
+title: Home
+---
+<section class="hero">
+  <div class="prompt"><span class="g">{{ site.github_user }}@kali</span>:<span class="p">~</span>$ whoami</div>
+  <h1>Jaime — security analyst in training</h1>
+  <div class="role">SOC analyst &amp; junior pentester · Zürich, CH</div>
+  <p>Eight years in IT infrastructure (banking &amp; enterprise), now transitioning into
+  offensive and defensive security. This is where I publish lab write-ups, CTF solutions,
+  and notes — the honest version, with tutorials credited where followed.</p>
+  <div class="stats">
+    <span><b>{{ site.posts | size }}</b> write-ups</span>
+    <span><b>6</b> repos</span>
+    <span><b>1</b> NCSC.ch acknowledgment</span>
+    <span><b>CEH</b> in progress</span>
+  </div>
+</section>
+
+<div class="sec">// <span>cat</span> latest.log</div>
+
+{% for post in site.posts limit:6 %}
+<article class="post-item">
+  {% if post.featured %}<span class="badge">FEATURED</span>{% endif %}
+  <div class="date">{{ post.date | date: "%Y-%m" }}{% if post.category %} · {{ post.category }}{% endif %}</div>
+  <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+  <p>{{ post.excerpt | strip_html | truncate: 200 }}</p>
+  {% if post.tags.size > 0 %}
+  <div class="tags">
+    {% for tag in post.tags %}<a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a>{% endfor %}
+  </div>
+  {% endif %}
+</article>
+{% endfor %}
+
+<div class="sec" style="margin-top:34px"><a href="{{ '/writeups/' | relative_url }}">→ all write-ups &amp; linked repos</a></div>

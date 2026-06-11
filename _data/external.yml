@@ -1,0 +1,26 @@
+# Write-ups that live in your GitHub repos rather than as posts here.
+# Add/remove freely — the /writeups page renders them automatically.
+- title: "Network Pentest — internal lab enumeration & exploitation"
+  repo: red-team-labs
+  url: "https://github.com/jaalso/red-team-labs"
+  tags: [pentest, nmap, red-team]
+- title: "GoPhish Phishing Simulation — campaign setup & results"
+  repo: red-team-labs
+  url: "https://github.com/jaalso/red-team-labs"
+  tags: [phishing, gophish, social-engineering]
+- title: "SIEM Lab — log pipeline & alerting"
+  repo: blue-team-labs
+  url: "https://github.com/jaalso/blue-team-labs"
+  tags: [siem, wazuh, blue-team]
+- title: "Incident Response Playbook — host triage workflow"
+  repo: incident-response-labs
+  url: "https://github.com/jaalso/incident-response-labs"
+  tags: [dfir, incident-response]
+- title: "Security tooling & scripts"
+  repo: security-scripts
+  url: "https://github.com/jaalso/security-scripts"
+  tags: [python, tooling]
+- title: "Security research notes"
+  repo: security-research
+  url: "https://github.com/jaalso/security-research"
+  tags: [research, nuclei]
