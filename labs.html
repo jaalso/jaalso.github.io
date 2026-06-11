@@ -1,0 +1,610 @@
+---
+layout: default
+title: Labs
+permalink: /labs/
+---
+
+<style>
+/* widen the page container just for /labs/ */
+main.wrap { max-width: 1080px; }
+
+/* ===== labs page — terminal reskin ===== */
+.labs-hero { padding: 46px 0 22px; }
+.labs-hero .prompt { color: var(--dim); font-size: 13px; }
+.labs-hero .prompt .g { color: var(--green-dim); }
+.labs-hero .prompt .p { color: var(--green); }
+.labs-hero h1 { font-size: 26px; color: var(--heading); margin: 12px 0 2px; letter-spacing: -.5px; }
+.labs-hero h1 em { font-style: normal; color: var(--green); }
+.labs-hero .subtitle { font-size: 12px; color: var(--dim); margin-bottom: 18px; }
+.labs-stats { display: flex; gap: 26px; flex-wrap: wrap; font-size: 12.5px; color: var(--dim); }
+.labs-stats b { color: var(--amber); font-weight: 700; font-size: 17px; }
+
+.labs-profile { background: var(--bg2); border: 1px solid var(--line); border-radius: 8px;
+  padding: 12px 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+.labs-profile .pname { font-size: 14px; font-weight: 700; color: var(--heading); }
+.labs-profile .psub { font-size: 12px; color: var(--dim); margin-top: 2px; }
+.labs-profile .plinks { display: flex; gap: 8px; flex-wrap: wrap; }
+.labs-profile .plink { font-size: 11px; color: var(--green); text-decoration: none;
+  border: 1px solid var(--green-dim); padding: 3px 10px; border-radius: 4px; }
+.labs-profile .plink:hover { background: rgba(74,222,128,.08); text-decoration: none; }
+.labs-profile .pnote { font-size: 10.5px; color: var(--dim); margin-left: auto; }
+
+/* filters */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 22px 0 18px; }
+.filter-btn { font-family: inherit; font-size: 11px; padding: 5px 12px; border-radius: 20px;
+  border: 1px solid var(--line); background: transparent; color: var(--dim); cursor: pointer;
+  letter-spacing: .04em; text-transform: lowercase; transition: all .15s; }
+.filter-btn:hover, .filter-btn.active { border-color: var(--green-dim); color: var(--green); background: rgba(74,222,128,.06); }
+
+/* lab cards */
+.labs { display: flex; flex-direction: column; gap: 10px; }
+.lab { background: var(--bg2); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; transition: border-color .2s; }
+.lab:hover { border-color: var(--green-dim); }
+.lab-header { display: flex; align-items: flex-start; gap: 14px; padding: 14px 18px 0; cursor: pointer; user-select: none; }
+.lab-num { font-size: 11px; font-weight: 700; color: var(--bg); width: 28px; height: 28px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; background: var(--green) !important; }
+.lab-title-block { flex: 1; }
+.lab-title { font-size: 15px; font-weight: 700; color: var(--heading); margin-bottom: 4px; }
+.lab-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.tag { font-size: 9.5px; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; letter-spacing: .06em;
+  background: rgba(74,222,128,.08); color: var(--green-dim); border: 1px solid var(--green-dim); }
+.tag-offensive { color: var(--red); border-color: var(--red); background: rgba(249,117,131,.08); }
+.tag-defensive, .tag-network { color: var(--green); border-color: var(--green-dim); background: rgba(74,222,128,.08); }
+.tag-forensics { color: var(--amber); border-color: var(--amber); background: rgba(227,179,65,.08); }
+.tag-siem { color: var(--green); border-color: var(--green-dim); background: rgba(74,222,128,.08); }
+.tag-email { color: var(--amber); border-color: var(--amber); background: rgba(227,179,65,.08); }
+.tag-web { color: var(--text); border-color: var(--dim); background: rgba(200,211,200,.06); }
+.lab-core { font-size: 13px; color: var(--text); line-height: 1.65; padding: 0 0 12px 0; border-bottom: 1px solid var(--line); }
+
+.lab-toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 18px; cursor: pointer; user-select: none; }
+.lab-elevator-label { font-size: 10px; color: var(--dim); text-transform: uppercase; letter-spacing: .08em; }
+.lab-chevron { font-size: 11px; color: var(--dim); transition: transform .2s; }
+.lab.open .lab-chevron { transform: rotate(90deg); }
+
+.lab-body { display: none; padding: 0 18px 18px; }
+.lab.open .lab-body { display: block; }
+.elevator-box { background: rgba(74,222,128,.04); border: 1px solid var(--green-dim); border-radius: 8px; padding: 12px 14px; margin-bottom: 14px; }
+.elevator-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: .12em; color: var(--green); margin-bottom: 6px; }
+.elevator-text { font-size: 13px; color: var(--text); line-height: 1.65; font-style: italic; }
+
+.lab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 640px) { .lab-grid { grid-template-columns: 1fr; } }
+.info-block { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.info-block.full { grid-column: 1 / -1; }
+.info-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: .12em; color: var(--dim); margin-bottom: 5px; }
+.info-content { font-size: 12px; color: var(--text); line-height: 1.6; }
+.info-content.mono { font-size: 11.5px; color: var(--green); line-height: 1.8; }
+.finding { display: flex; align-items: flex-start; gap: 8px; padding: 4px 0; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--text); }
+.finding:last-child { border-bottom: none; }
+.mitre { font-size: 10px; background: rgba(227,179,65,.08); color: var(--amber); border: 1px solid var(--amber); padding: 2px 8px; border-radius: 4px; display: inline-block; margin: 2px 2px 2px 0; }
+
+.labs-toolbar { margin: 22px 0 0; display: flex; justify-content: flex-end; }
+.expand-all-btn { font-family: inherit; font-size: 11px; background: transparent; border: 1px solid var(--line);
+  color: var(--dim); padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all .15s; }
+.expand-all-btn:hover { border-color: var(--green-dim); color: var(--green); }
+</style>
+
+<section class="labs-hero">
+  <div class="prompt"><span class="g">jaalso@kali</span>:<span class="p">~</span>$ ls -la labs/</div>
+  <h1>Lab Portfolio <em>— hands-on projects</em></h1>
+  <div class="subtitle">Swiss Cyber Institute · CSS EFA · Zürich, Switzerland · all labs in isolated VirtualBox environments</div>
+  <div class="labs-stats">
+    <span><b>11</b> labs</span>
+    <span><b>5</b> domains</span>
+    <span><b>offensive + defensive</b></span>
+  </div>
+</section>
+
+<div class="labs-profile">
+  <div>
+    <div class="pname">Jaime Soto</div>
+    <div class="psub">IT Infrastructure Engineer → Cybersecurity Specialist</div>
+  </div>
+  <div class="plinks">
+    <a class="plink" href="https://github.com/jaalso/cybersecurity-portfolio" target="_blank" rel="noopener">github</a>
+    <a class="plink" href="https://linkedin.com/in/jaalso" target="_blank" rel="noopener">linkedin</a>
+  </div>
+  <div class="pnote">isolated VirtualBox environments · no external systems</div>
+</div>
+
+<div class="filters">
+  <button class="filter-btn active" onclick="filterLabs('all',this)">all (11)</button>
+  <button class="filter-btn" onclick="filterLabs('offensive',this)">offensive</button>
+  <button class="filter-btn" onclick="filterLabs('defensive',this)">defensive / blue</button>
+  <button class="filter-btn" onclick="filterLabs('forensics',this)">forensics / dfir</button>
+  <button class="filter-btn" onclick="filterLabs('siem',this)">siem / detection</button>
+  <button class="filter-btn" onclick="filterLabs('email',this)">email security</button>
+  <button class="filter-btn" onclick="filterLabs('web',this)">web / tls</button>
+</div>
+
+<div class="labs" id="labs">
+
+<!-- ═══════════ LAB 01 ═══════════ -->
+<div class="lab" data-tags="offensive network">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num" style="background:#ff4d6d">01</div>
+    <div class="lab-title-block">
+      <div class="lab-title">Network Penetration Testing Lab</div>
+      <div class="lab-tags">
+        <span class="tag tag-offensive">Offensive</span>
+        <span class="tag tag-network">Network</span>
+      </div>
+      <div class="lab-core">Attacked a vulnerable Linux machine from scratch — found open ports, identified exploitable services, used Metasploit to get a root shell.</div>
+    </div>
+  </div>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"I built an isolated VirtualBox lab with Kali attacking Metasploitable 2. I ran the full kill chain — netdiscover and nmap for recon, found vsftpd 2.3.4 and Samba 3.x, exploited CVE-2011-2523 and CVE-2007-2447 via Metasploit, got a root shell, and extracted /etc/shadow. It was my first complete penetration test and made the MITRE ATT&CK kill chain concrete."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block">
+        <div class="info-label">Environment</div>
+        <div class="info-content">VirtualBox host-only 192.168.56.0/24<br>Kali bornia01 (.101) → Metasploitable 2 (.104)</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Tools</div>
+        <div class="info-content mono">netdiscover · nmap · Metasploit 6.4 · Wireshark</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">CVEs Exploited</div>
+        <div class="info-content"><span class="mitre">CVE-2011-2523</span> vsftpd 2.3.4 backdoor<br><span class="mitre">CVE-2007-2447</span> Samba usermap_script</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Outcome</div>
+        <div class="info-content">Root shell · /etc/shadow extracted · post-exploitation documented</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LAB 02 ═══════════ -->
+<div class="lab" data-tags="defensive forensics siem network">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num" style="background:#00c9ff">02</div>
+    <div class="lab-title-block">
+      <div class="lab-title">Network Traffic Forensics — Phishing PCAP</div>
+      <div class="lab-tags">
+        <span class="tag tag-forensics">Forensics</span>
+        <span class="tag tag-defensive">Defensive</span>
+        <span class="tag tag-network">Network</span>
+      </div>
+      <div class="lab-core">Investigated a phishing incident from a network capture file — traced the attack backwards to find who was hit, what malware was used, and how the data left the network.</div>
+    </div>
+  </div>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"I was given a PCAP from a phishing incident — customer data leaked to Pastebin. Using Wireshark and TShark I traced it backwards: found the phishing email, extracted a malicious PDF (41/64 VT detection, two Adobe Reader CVEs), found two compromised internal users, and traced 1.2 MB of PII being exfiltrated. Reconstructed the full five-phase attack timeline."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block">
+        <div class="info-label">Tools</div>
+        <div class="info-content mono">Wireshark · TShark · VirusTotal<br>HTTP Object Export · TCP Stream Follow</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">CVEs / Threat Intel</div>
+        <div class="info-content"><span class="mitre">CVE-2009-0927</span> Adobe Reader JS<br><span class="mitre">CVE-2008-2992</span> Adobe util.printf<br>41/64 VirusTotal detection</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Victims Found</div>
+        <div class="info-content">173.255.224.88 (first click)<br>173.255.224.55 (second click)</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Exfiltration</div>
+        <div class="info-content">~1.2 MB PII → 55.9.19.52<br>Names · SSNs · credit cards · CVVs</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LAB 03 ═══════════ -->
+<div class="lab" data-tags="offensive network defensive">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num" style="background:#00e5a0;color:#000">03</div>
+    <div class="lab-title-block">
+      <div class="lab-title">Home Network Security Audit</div>
+      <div class="lab-tags">
+        <span class="tag tag-offensive">Recon</span>
+        <span class="tag tag-defensive">Audit</span>
+        <span class="tag tag-network">Network</span>
+      </div>
+      <div class="lab-core">Scanned my own home network exactly like an attacker would — and found a real vulnerability: a smart speaker with no password on its admin panel.</div>
+    </div>
+  </div>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"I audited my own home network in Zürich using Kali in bridged mode. Found 10 live hosts, ran nmap service discovery, and found a real finding: a Bang & Olufsen BeoPlay A9 with an unauthenticated admin panel, SSL cert expired 1999. Also found UPnP enabled on the router. Documented a Hydra false positive to show the difference between noise and a real finding. Full written report with remediation."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block">
+        <div class="info-label">Tools</div>
+        <div class="info-content mono">netdiscover · nmap (-sV -A --script)<br>Hydra (http-get) · curl (-v -L -k)</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Real Finding</div>
+        <div class="info-content">🔴 BeoPlay A9 — unauthenticated admin panel. Full device control, no credentials required. SSL cert expired 1999.</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Other Findings</div>
+        <div class="info-content">⚠️ UPnP enabled on Swisscom router<br>⚠️ HTTP admin interface on router<br>✅ Hydra false positive documented</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Scope</div>
+        <div class="info-content">192.168.1.0/24 live network<br>10 unique hosts discovered<br>Authorised — own network</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LAB 04 ═══════════ -->
+<div class="lab" data-tags="web defensive">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num" style="background:#f472b6">04</div>
+    <div class="lab-title-block">
+      <div class="lab-title">Web Application Security — Certificate Analysis</div>
+      <div class="lab-tags">
+        <span class="tag tag-web">Web / TLS</span>
+        <span class="tag tag-defensive">PKI</span>
+      </div>
+      <div class="lab-core">Audited TLS certificates across a multi-port target — found expired and wildcard certs, then verified the full certificate revocation chain using OpenSSL.</div>
+    </div>
+  </div>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"Two certificate analysis exercises. First: full port scan found 6 open ports, nmap NSE scripts extracted TLS certificates from each, found wildcard and expired certs, telnet HTTP probing. Second: sslyze deep analysis, 25 cipher suites audited via CSV, OpenSSL CRL revocation chain verification, revoked intermediate CA identified. PKI analysis from port discovery to chain of trust."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block">
+        <div class="info-label">Tools</div>
+        <div class="info-content mono">nmap --script ssl-cert · telnet<br>sslyze · sslscan · openssl<br>csvlook · grep</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Ports Found</div>
+        <div class="info-content mono">4443 · 8080 · 8081<br>9990 · 21021 · 30443</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Exercise 1</div>
+        <div class="info-content">Wildcard cert identified · expired cert on non-standard port · WildFly app server via telnet</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Exercise 2</div>
+        <div class="info-content">25 cipher suites audited · CRL chain verified with OpenSSL · revoked intermediate CA found</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LAB 05 ═══════════ -->
+<div class="lab" data-tags="siem defensive">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num" style="background:#00c9ff">05</div>
+    <div class="lab-title-block">
+      <div class="lab-title">SIEM & Endpoint Detection — Wazuh</div>
+      <div class="lab-tags">
+        <span class="tag tag-siem">SIEM / XDR</span>
+        <span class="tag tag-defensive">Defensive</span>
+      </div>
+      <div class="lab-core">Set up a real SIEM at home, connected Kali as a monitored endpoint, and watched my own activity show up as MITRE ATT&CK-tagged security alerts.</div>
+    </div>
+  </div>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"I deployed Wazuh SIEM/XDR, enrolled Kali as an agent, and ran the full capability suite. Diagnosed a real service failure — indexer RAM saturation causing manager timeout — fixed with systemd delay. Results: 258 MITRE-tagged events, 190-control CIS Benchmark at 45%, 7,958 files under FIM, one High CVE. Architecturally identical to Microsoft Sentinel or Splunk."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block">
+        <div class="info-label">Platform</div>
+        <div class="info-content">Wazuh v4.14.3 OVA · 192.168.56.105<br>Kali-attacker agent · ID 001</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Results</div>
+        <div class="info-content mono">258 events · 45% CIS · 7,958 files<br>1 High CVE · FIM alert triggered</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">MITRE Detections</div>
+        <div class="info-content"><span class="mitre">T1046</span> Network Service Discovery<br><span class="mitre">T1562</span> Defense Evasion<br><span class="mitre">T1078</span> Valid Accounts</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Problem Solved</div>
+        <div class="info-content">wazuh-manager timeout on boot. Root cause: indexer RAM saturation. Fix: ExecStartPre=/bin/sleep 30 in systemd unit file.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LAB 06 ═══════════ -->
+<div class="lab" data-tags="offensive email">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num" style="background:#ffb347;color:#000">06</div>
+    <div class="lab-title-block">
+      <div class="lab-title">Offensive Email Attack Chain</div>
+      <div class="lab-tags">
+        <span class="tag tag-offensive">Offensive</span>
+        <span class="tag tag-email">Email</span>
+      </div>
+      <div class="lab-core">Built a full phishing campaign from scratch — fake login pages, email delivery, and credential capture tracking — to understand how attackers do it.</div>
+    </div>
+  </div>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"I built a complete phishing attack chain to understand how attacks are constructed — the foundation for defending against them. Infrastructure with Ngrok and Cloudflared, credential capture with Zphisher and SET, GoPhish campaign end-to-end, delivery via swaks, tracking opens and credential submissions. All six phases of MITRE T1566 covered and documented."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block">
+        <div class="info-label">Tools</div>
+        <div class="info-content mono">Zphisher · SET · GoPhish · swaks<br>Ngrok · Cloudflared · CyberChef</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">MITRE</div>
+        <div class="info-content"><span class="mitre">T1566</span> Phishing<br><span class="mitre">T1566.001</span> Spearphishing Attachment<br><span class="mitre">T1566.002</span> Spearphishing Link</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">6 Phases Executed</div>
+        <div class="finding"><span>1.</span><span>Infrastructure — Kali + Ngrok/Cloudflared tunneling</span></div>
+        <div class="finding"><span>2.</span><span>Credential harvest — Zphisher cloned pages</span></div>
+        <div class="finding"><span>3.</span><span>Email template — GoPhish lure</span></div>
+        <div class="finding"><span>4.</span><span>Delivery — swaks SMTP to controlled account</span></div>
+        <div class="finding"><span>5.</span><span>Tracking — opens, clicks, submissions in GoPhish dashboard</span></div>
+        <div class="finding"><span>6.</span><span>Credential capture — harvested and documented</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LAB 07 ═══════════ -->
+<div class="lab" data-tags="defensive email siem">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num" style="background:#00e5a0;color:#000">07</div>
+    <div class="lab-title-block">
+      <div class="lab-title">Email Security Gateway — Proxmox Mail Gateway</div>
+      <div class="lab-tags">
+        <span class="tag tag-defensive">Defensive</span>
+        <span class="tag tag-email">Email</span>
+        <span class="tag tag-siem">Detection</span>
+      </div>
+      <div class="lab-core">Built a corporate-style email security gateway from scratch, then fired the same phishing attacks through it to see what gets caught and what slips through.</div>
+    </div>
+  </div>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"I built a complete enterprise email security stack — Proxmox Mail Gateway, Postfix, Dovecot, SpamAssassin, ClamAV — from scratch in VirtualBox. Then ran the same attacks from Lab 06 through it and documented what was caught, what scored, and what got through. Offensive and defensive perspective on the same event chain."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block">
+        <div class="info-label">Stack</div>
+        <div class="info-content mono">Proxmox Mail Gateway · Postfix<br>Dovecot · SpamAssassin · ClamAV<br>swaks · Thunderbird · analyze.py</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Architecture</div>
+        <div class="info-content">Kali (.106) → PMG (gateway) → Postfix/Dovecot (server) → Thunderbird (client) — all host-only VirtualBox</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LAB 08 ═══════════ -->
+<div class="lab" data-tags="offensive forensics">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num" style="background:#ff4d6d">08</div>
+    <div class="lab-title-block">
+      <div class="lab-title">SMB Pentest — Full Compromise + Forensic Reconstruction</div>
+      <div class="lab-tags">
+        <span class="tag tag-offensive">Offensive</span>
+        <span class="tag tag-forensics">Forensics</span>
+      </div>
+      <div class="lab-core">Hacked into a Windows machine over the network, then switched sides and reconstructed every step of the attack from the Windows logs left behind.</div>
+    </div>
+  </div>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"Two-phase exercise: SMB pentest to Pwn3d!, then full defender forensic reconstruction. Phase one: nmap found SMB signing not required, Hydra brute-forced bornia02, CrackMapExec RID brute got 5 accounts, achieved Pwn3d! as Administrator. Phase two: Eric Zimmerman tools parsed Prefetch, AmCache, and Event Logs — reconstructed the full attack chain from artifacts. Found Event 4740 lockout triggered in under one second."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block">
+        <div class="info-label">Attack Tools</div>
+        <div class="info-content mono">nmap · Hydra · CrackMapExec<br>netexec · enum4linux</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">MITRE</div>
+        <div class="info-content"><span class="mitre">T1046</span> Network Service Discovery<br><span class="mitre">T1110.001</span> Password Guessing<br><span class="mitre">T1087.001</span> Account Discovery<br><span class="mitre">T1078.003</span> Valid Accounts (Local)</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Forensic Tools</div>
+        <div class="info-content mono">PECmd · AmcacheParser<br>AppCompatCacheParser · EvtxECmd<br>Timeline Explorer · Registry Explorer</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Key Discovery</div>
+        <div class="info-content">Event 4740 — account lockout in &lt;1 second. SMB signing not required → NTLM relay possible. Full attack chain recovered from native Windows logs.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LAB 09 ═══════════ -->
+<div class="lab" data-tags="offensive forensics siem">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num" style="background:#a78bfa">09</div>
+    <div class="lab-title-block">
+      <div class="lab-title">PsExec Lateral Movement — Attack + Forensic Reconstruction</div>
+      <div class="lab-tags">
+        <span class="tag tag-offensive">Offensive</span>
+        <span class="tag tag-forensics">DFIR</span>
+        <span class="tag tag-siem">Detection</span>
+      </div>
+      <div class="lab-core">Moved laterally to a Windows machine using a stolen password and PsExec, then found every trace of it in the event logs — even after the attacker tried to clean up.</div>
+    </div>
+  </div>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"Used impacket-psexec to achieve SYSTEM shell on WIN10TEST via lateral movement. Two sessions — Defender caught the second one. Then forensics: Event 7045 in System.evtx (not Security), Event 4624 Type 3, Prefetch, registry service key survived cleanup. Critical finding: impacket drops a randomly named binary, not PSEXESVC.EXE — that's how defenders get fooled. Event Logs preserved the full chain even after self-cleanup."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block">
+        <div class="info-label">Tool</div>
+        <div class="info-content mono">impacket-psexec v0.14.0<br>T1021.002 — SMB/Admin Shares<br>Outcome: SYSTEM execution</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Forensic Evidence</div>
+        <div class="info-content mono">Event 7045 — System.evtx (not Security)<br>Event 4624 Type 3 — network logon<br>Prefetch — PSEXESVC artifacts<br>Registry — service key post-cleanup</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Key Lesson</div>
+        <div class="info-content">impacket drops randomly named binary — not PSEXESVC.EXE. Defender caught session 2. Cleanup deleted binary + registry key but Event Logs preserved complete chain. → Why SIEM log forwarding is critical.</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">MITRE</div>
+        <div class="info-content"><span class="mitre">T1021.002</span> Remote Services: SMB<br><span class="mitre">T1569.002</span> Service Execution<br><span class="mitre">T1070.001</span> Clear Event Logs (attempted)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LAB 10 ═══════════ -->
+<div class="lab" data-tags="web defensive offensive">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num" style="background:#f472b6">10</div>
+    <div class="lab-title-block">
+      <div class="lab-title">HSTS Lab — Defensive Deploy + SSL Stripping Attack</div>
+      <div class="lab-tags">
+        <span class="tag tag-web">Web / TLS</span>
+        <span class="tag tag-defensive">Defensive</span>
+        <span class="tag tag-offensive">Offensive</span>
+      </div>
+      <div class="lab-core">Configured HSTS on a web server to force HTTPS, then proved why it matters by running an SSL stripping attack that exposed credentials in plaintext.</div>
+    </div>
+  </div>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"HSTS lab from Module 6. Part one: deployed Nginx in Docker, configured HSTS three ways — basic, includeSubDomains, preload — verified headers with curl. Part two: ran SSL stripping with mitmproxy to show exactly what HSTS prevents — credentials visible in plaintext at the attacker. Both offensive and defensive perspective on the same protection."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block">
+        <div class="info-label">Tools</div>
+        <div class="info-content mono">Nginx 1.29.8 (Docker) · mitmproxy 12.2.1<br>curl 8.18.0 · OpenSSL 3.5.4</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">HSTS Levels Deployed</div>
+        <div class="info-content">1. Basic — max-age=31536000<br>2. + includeSubDomains<br>3. + preload-ready configuration</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LAB 11 ═══════════ -->
+<div class="lab" data-tags="forensics siem defensive">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num" style="background:#a78bfa">11</div>
+    <div class="lab-title-block">
+      <div class="lab-title">Windows DFIR & SOC Analyst — KAPE Triage</div>
+      <div class="lab-tags">
+        <span class="tag tag-forensics">DFIR</span>
+        <span class="tag tag-siem">SOC</span>
+        <span class="tag tag-defensive">Defensive</span>
+      </div>
+      <div class="lab-core">Used a forensic triage tool to collect 3,300 artifacts from a compromised Windows machine and rebuilt the complete attack story from scratch — including a finding the attacker tried to hide.</div>
+    </div>
+  </div>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"Full DFIR engagement using KAPE — collected 3,303 artifacts, 1.6 GB in 13 minutes. Reconstructed the complete attack chain from Labs 8 and 9 across five forensic sources. Key organic finding: Event 4739 showed the attacker modified the lockout policy mid-attack to disable account lockout — T1562.001 defense evasion. Produced 22-tool SOC cheat sheet and nine interactive drill widgets."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block">
+        <div class="info-label">KAPE Results</div>
+        <div class="info-content mono">3,303 artifacts · 1.6 GB · 13 minutes<br>Event Logs · Prefetch · AmCache<br>Shimcache · Registry · Browser</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Organic Discovery</div>
+        <div class="info-content"><span class="mitre">Event 4739</span> — attacker modified domain lockout policy to disable account lockout mid-attack. T1562.001 Defense Evasion. Not expected — found during analysis.</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Attack Chain Reconstructed</div>
+        <div class="info-content">SMB brute force → lockout → policy mod → credential success → PsExec SYSTEM — all from native Windows artifacts</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Deliverables</div>
+        <div class="info-content">22-tool SOC analyst cheat sheet<br>9 interactive drill widgets<br>Full IR timeline · MITRE mapping</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end labs -->
+
+<div class="labs-toolbar">
+  <button class="expand-all-btn" onclick="expandAllLabs()" id="expand-btn">expand all ▼</button>
+</div>
+
+<script>
+function toggle(lab) { lab.classList.toggle('open'); }
+
+let allOpen = false;
+function expandAllLabs() {
+  allOpen = !allOpen;
+  document.querySelectorAll('.lab').forEach(l => allOpen ? l.classList.add('open') : l.classList.remove('open'));
+  document.getElementById('expand-btn').textContent = allOpen ? 'collapse all ▲' : 'expand all ▼';
+}
+
+function filterLabs(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.lab').forEach(lab => {
+    if (type === 'all') { lab.style.display = ''; return; }
+    lab.style.display = (lab.dataset.tags || '').includes(type) ? '' : 'none';
+  });
+}
+</script>
