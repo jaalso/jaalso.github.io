@@ -4,16 +4,23 @@ title: Home
 ---
 <section class="hero">
   <div class="prompt"><span class="g">{{ site.github_user }}@kali</span>:<span class="p">~</span>$ whoami</div>
-  <h1>Jaime — security analyst in training</h1>
-  <div class="role">SOC analyst &amp; junior pentester · Zürich, CH</div>
+  <h1>Breaking into offensive &amp; defensive security</h1>
+  <div class="role">Cyber Security Specialist · Jaime · Zürich, CH</div>
   <p>Eight years in IT infrastructure (banking &amp; enterprise), now transitioning into
   offensive and defensive security. This is where I publish lab write-ups, CTF solutions,
   and notes — the honest version, with tutorials credited where followed.</p>
+
   <div class="stats">
     <span><b>{{ site.posts | size }}</b> write-ups</span>
+    <span><b>11</b> labs</span>
     <span><b>6</b> repos</span>
     <span><b>1</b> NCSC.ch acknowledgment</span>
-    <span><b>CEH</b> in progress</span>
+  </div>
+
+  <div class="stats" style="margin-top:12px">
+    <span><b>CSP</b> · completed</span>
+    <span><b>CSS EFA</b> · in progress</span>
+    <span><b>CEH</b> · in progress</span>
   </div>
 </section>
 
@@ -33,4 +40,26 @@ title: Home
 </article>
 {% endfor %}
 
-<div class="sec" style="margin-top:34px"><a href="{{ '/writeups/' | relative_url }}">→ all write-ups &amp; linked repos</a></div>
+<div class="sec" style="margin-top:30px"><a href="{{ '/writeups/' | relative_url }}">→ all write-ups &amp; linked repos</a></div>
+
+<div class="sec" style="margin-top:48px">// <span>ls</span> labs/</div>
+<p style="font-size:13.5px;color:var(--text);max-width:660px;margin-bottom:6px">
+11 hands-on labs across offensive, blue-team, DFIR, SIEM, email security, and web/TLS —
+each with a 30-second interview pitch, the environment, tools, CVEs, and outcomes. Built
+and run in isolated VirtualBox environments.
+</p>
+
+<article class="post-item">
+  <div class="date">offensive · forensics</div>
+  <h2><a href="{{ '/labs/' | relative_url }}">SMB Pentest — Full Compromise + Forensic Reconstruction</a></h2>
+</article>
+<article class="post-item">
+  <div class="date">defensive · siem</div>
+  <h2><a href="{{ '/labs/' | relative_url }}">SIEM &amp; Endpoint Detection — Wazuh</a></h2>
+</article>
+<article class="post-item">
+  <div class="date">forensics · dfir</div>
+  <h2><a href="{{ '/labs/' | relative_url }}">Windows DFIR &amp; SOC Analyst — KAPE Triage</a></h2>
+</article>
+
+<div class="sec" style="margin-top:30px"><a href="{{ '/labs/' | relative_url }}">→ browse all 11 labs</a></div>

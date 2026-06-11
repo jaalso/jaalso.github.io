@@ -8,15 +8,18 @@ permalink: /about/
 $ cat /home/jaalso/about.txt
 ```
 
-I'm Jaime — moving into cybersecurity after about eight years in IT
-infrastructure, including roles at a private bank and at Microsoft Switzerland.
-I'm based in Zürich and currently enrolled in the Swiss Cyber Institute's
-**Cybersecurity Specialist (CSS EFA)** program, with **CEH** in progress.
+After 8+ years in IT infrastructure and system administration — at a private bank
+in Zürich and at a large enterprise (Microsoft) — I moved into the world of
+cybersecurity, which I find genuinely fascinating. I'm working through the Swiss
+Cyber Institute's **Cyber Security Specialist** program (SCI 2511) — a federally
+recognised qualification that, under Switzerland's 2026 vocational reform, carries
+the new **Professional Bachelor** title — and pursuing the **CEH** alongside it.
 
-My target is **SOC Analyst (L1/L2)** or **junior penetration tester** work in
-Switzerland. I work across both tracks — building detections and doing host
-forensics on the blue side, and enumeration-to-exploitation labs on the red
-side — because understanding one makes you better at the other.
+My target is **security engineering**, **ethical hacking**, and **junior
+penetration testing**, and I'm open to **security consulting**. I work across both
+sides — building detections and doing host forensics on the blue team, and
+enumeration-to-exploitation labs on the red team — because understanding one makes
+you better at the other.
 
 ## What's here
 
@@ -40,9 +43,9 @@ flag-grabbing.
 ## Find me
 
 - GitHub — [github.com/{{ site.github_user }}](https://github.com/{{ site.github_user }})
-- HackTheBox — [Bornia01](https://profile.hackthebox.com/profile/019c9973-b580-718e-adda-fcdc2795deb3)
+- HackTheBox — [{{ site.htb_user }}](https://profile.hackthebox.com/profile/019c9973-b580-718e-adda-fcdc2795deb3)
 - TryHackMe — [tryhackme.com/p/{{ site.thm_user }}](https://tryhackme.com/p/{{ site.thm_user }})
 
 ```
-$ # languages: EN (fluent), DE (B1, improving)
+$ # languages: EN (fluent), ES (fluent), DE (B1, improving)
 ```
