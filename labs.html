@@ -92,12 +92,12 @@ main.wrap { max-width: 1080px; }
 
 <div class="labs-profile">
   <div>
-    <div class="psub">Eleven hands-on labs spanning offensive security, blue-team detection, DFIR, SIEM, email security, and web/TLS — built and run from scratch.</div>
+    <div class="psub">Thirteen hands-on labs spanning offensive security, blue-team detection, DFIR, SIEM, email security, and web/TLS — built and run from scratch.</div>
   </div>
 </div>
 
 <div class="filters">
-  <button class="filter-btn active" onclick="filterLabs('all',this)">all (11)</button>
+  <button class="filter-btn active" onclick="filterLabs('all',this)">all (13)</button>
   <button class="filter-btn" onclick="filterLabs('offensive',this)">offensive</button>
   <button class="filter-btn" onclick="filterLabs('defensive',this)">defensive / blue</button>
   <button class="filter-btn" onclick="filterLabs('forensics',this)">forensics / dfir</button>
@@ -567,6 +567,100 @@ main.wrap { max-width: 1080px; }
       <div class="info-block">
         <div class="info-label">Deliverables</div>
         <div class="info-content">22-tool SOC analyst cheat sheet<br>9 interactive drill widgets<br>Full IR timeline · MITRE mapping</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LAB 12 ═══════════ -->
+<div class="lab" data-tags="offensive web">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num">12</div>
+    <div class="lab-title-block">
+      <div class="lab-title">Web Application Security Audit — OWASP Top 10</div>
+      <div class="lab-tags">
+        <span class="tag tag-offensive">Offensive</span>
+        <span class="tag tag-web">Web</span>
+      </div>
+      <div class="lab-core">Audited two deliberately vulnerable web apps end-to-end through Burp Suite — exploited SQL injection, XSS, broken access control, CSRF, and more by hand, then started moving toward real bug-bounty targets.</div>
+    </div>
+  </div>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"I ran a structured web app audit across two platforms — OWASP Juice Shop self-hosted in Docker, and the PortSwigger Web Security Academy — driving everything through Burp Suite. I exploited the OWASP Top 10 by hand: SQL injection (login auth-bypass and UNION-based extraction), XSS (DOM and reflected), broken access control (IDOR, forced browsing, path traversal), CSRF, and username enumeration. I automated a credential attack with Burp Intruder, then moved from guided labs toward real targets by registering on Swiss bug-bounty VDP programs."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block">
+        <div class="info-label">Environment</div>
+        <div class="info-content">Kali · Burp Suite Community<br>OWASP Juice Shop (Docker, proxied via Burp)<br>PortSwigger Web Security Academy</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Tools</div>
+        <div class="info-content mono">Burp Proxy · Repeater · Intruder<br>Match &amp; Replace · FoxyProxy · ModHeader · Docker</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Vulnerabilities Exploited — OWASP Top 10</div>
+        <div class="info-content">
+          <span class="mitre">A03 Injection</span> SQLi auth-bypass (Login Admin / Bender) · UNION extraction (Admin Section, PortSwigger F1–F3) · XSS DOM &amp; reflected<br>
+          <span class="mitre">A01 Broken Access Control</span> IDOR (View Basket) · forced browsing (User Credentials) · path traversal ×3 · CSRF<br>
+          <span class="mitre">A07 Auth Failures</span> username enumeration via differing responses · info disclosure via provoked errors
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Automation</div>
+        <div class="info-content">Burp Intruder wordlist attack — custom exercise against a login form</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Outcome</div>
+        <div class="info-content">~10 Juice Shop + ~9 PortSwigger labs across the OWASP Top 10. From lab solver to researcher: registered on GoBugFree &amp; BugBountyCH, beginning VDP recon.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LAB 13 ═══════════ -->
+<div class="lab" data-tags="defensive web">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num">13</div>
+    <div class="lab-title-block">
+      <div class="lab-title">Web Server Hardening &amp; Content Security Policy</div>
+      <div class="lab-tags">
+        <span class="tag tag-defensive">Defensive</span>
+        <span class="tag tag-web">Web</span>
+      </div>
+      <div class="lab-core">The defensive counterpart to the audit — fixed a broken Content Security Policy and hardened a web server against the same classes of attack, worked as timed exam scenarios.</div>
+    </div>
+  </div>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"After learning to break web apps, I worked the defensive side as timed exam scenarios: diagnosing and fixing a broken Content Security Policy to shut down XSS, and hardening a web server's configuration and security headers. I turned each into a reusable playbook in Obsidian — a Web App Pentest playbook, a CSP playbook, and a Hardening playbook — so the fix is repeatable under exam pressure, not improvised."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block">
+        <div class="info-label">Scenarios Worked</div>
+        <div class="info-content">Fix a broken Content Security Policy<br>Web application security testing<br>Web server hardening — all timed</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Focus</div>
+        <div class="info-content mono">CSP directives · security headers<br>server config hardening · XSS mitigation</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Deliverables</div>
+        <div class="info-content">Three reusable exam playbooks built in Obsidian — <span class="mitre">Web App Pentest</span> <span class="mitre">CSP</span> <span class="mitre">Hardening</span> — each a step-by-step, repeatable procedure rather than ad-hoc notes.</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Pairs With</div>
+        <div class="info-content">Lab 12 (Web App Audit) — same attack classes, defender's view. Offense and defense on one event chain.</div>
       </div>
     </div>
   </div>
