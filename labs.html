@@ -44,6 +44,9 @@ main.wrap { max-width: 1080px; }
 .lab-num { font-size: 11px; font-weight: 700; color: var(--bg); width: 28px; height: 28px; border-radius: 6px;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; background: var(--green) !important; }
 .lab-title-block { flex: 1; }
+.lab-repo { flex-shrink: 0; font-size: 11px; color: var(--green-dim); border: 1px solid var(--green-dim);
+  padding: 2px 9px; border-radius: 4px; margin-top: 2px; white-space: nowrap; text-decoration: none; }
+.lab-repo:hover { color: var(--green); background: rgba(74,222,128,.08); text-decoration: none; }
 .lab-title { font-size: 15px; font-weight: 700; color: var(--heading); margin-bottom: 4px; }
 .lab-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
 .tag { font-size: 9.5px; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; letter-spacing: .06em;
@@ -120,6 +123,7 @@ main.wrap { max-width: 1080px; }
       </div>
       <div class="lab-core">Attacked a vulnerable Linux machine from scratch — found open ports, identified exploitable services, used Metasploit to get a root shell.</div>
     </div>
+    <a class="lab-repo" href="https://github.com/jaalso/red-team-labs" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View source on GitHub">github ↗</a>
   </div>
   <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
     <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
@@ -208,6 +212,7 @@ main.wrap { max-width: 1080px; }
       </div>
       <div class="lab-core">Scanned my own home network exactly like an attacker would — and found a real vulnerability: a smart speaker with no password on its admin panel.</div>
     </div>
+    <a class="lab-repo" href="https://github.com/jaalso/blue-team-labs" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View source on GitHub">github ↗</a>
   </div>
   <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
     <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
@@ -294,6 +299,7 @@ main.wrap { max-width: 1080px; }
       </div>
       <div class="lab-core">Set up a real SIEM at home, connected Kali as a monitored endpoint, and watched my own activity show up as MITRE ATT&CK-tagged security alerts.</div>
     </div>
+    <a class="lab-repo" href="https://github.com/jaalso/blue-team-labs" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View source on GitHub">github ↗</a>
   </div>
   <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
     <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
@@ -337,6 +343,7 @@ main.wrap { max-width: 1080px; }
       </div>
       <div class="lab-core">Built a full phishing campaign from scratch — fake login pages, email delivery, and credential capture tracking — to understand how attackers do it.</div>
     </div>
+    <a class="lab-repo" href="https://github.com/jaalso/red-team-labs" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View source on GitHub">github ↗</a>
   </div>
   <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
     <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
@@ -382,6 +389,7 @@ main.wrap { max-width: 1080px; }
       </div>
       <div class="lab-core">Built a corporate-style email security gateway from scratch, then fired the same phishing attacks through it to see what gets caught and what slips through.</div>
     </div>
+    <a class="lab-repo" href="https://github.com/jaalso/blue-team-labs" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View source on GitHub">github ↗</a>
   </div>
   <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
     <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
@@ -417,6 +425,7 @@ main.wrap { max-width: 1080px; }
       </div>
       <div class="lab-core">Hacked into a Windows machine over the network, then switched sides and reconstructed every step of the attack from the Windows logs left behind.</div>
     </div>
+    <a class="lab-repo" href="https://github.com/jaalso/incident-response-labs" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View source on GitHub">github ↗</a>
   </div>
   <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
     <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
@@ -461,6 +470,7 @@ main.wrap { max-width: 1080px; }
       </div>
       <div class="lab-core">Moved laterally to a Windows machine using a stolen password and PsExec, then found every trace of it in the event logs — even after the attacker tried to clean up.</div>
     </div>
+    <a class="lab-repo" href="https://github.com/jaalso/incident-response-labs" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View source on GitHub">github ↗</a>
   </div>
   <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
     <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
@@ -541,6 +551,7 @@ main.wrap { max-width: 1080px; }
       </div>
       <div class="lab-core">Used a forensic triage tool to collect 3,300 artifacts from a compromised Windows machine and rebuilt the complete attack story from scratch — including a finding the attacker tried to hide.</div>
     </div>
+    <a class="lab-repo" href="https://github.com/jaalso/incident-response-labs" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View source on GitHub">github ↗</a>
   </div>
   <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
     <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
@@ -584,6 +595,7 @@ main.wrap { max-width: 1080px; }
       </div>
       <div class="lab-core">Audited two deliberately vulnerable web apps end-to-end through Burp Suite — exploited SQL injection, XSS, broken access control, CSRF, and more by hand, then started moving toward real bug-bounty targets.</div>
     </div>
+    <a class="lab-repo" href="https://github.com/jaalso/web-security" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View source on GitHub">github ↗</a>
   </div>
   <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
     <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
@@ -635,6 +647,7 @@ main.wrap { max-width: 1080px; }
       </div>
       <div class="lab-core">The defensive counterpart to the audit — fixed a broken Content Security Policy and hardened a web server against the same classes of attack, worked as timed exam scenarios.</div>
     </div>
+    <a class="lab-repo" href="https://github.com/jaalso/web-security" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View source on GitHub">github ↗</a>
   </div>
   <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
     <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
@@ -678,6 +691,7 @@ main.wrap { max-width: 1080px; }
       </div>
       <div class="lab-core">Analysed a 128 MB Windows XP memory image where every process looked legitimate — uncovered a banking trojan by pivoting from "what it looks like" to "what it does", then proving code injection in memory.</div>
     </div>
+    <a class="lab-repo" href="https://github.com/jaalso/memory-forensics" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View source on GitHub">github ↗</a>
   </div>
   <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
     <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
