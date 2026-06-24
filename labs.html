@@ -92,12 +92,12 @@ main.wrap { max-width: 1080px; }
 
 <div class="labs-profile">
   <div>
-    <div class="psub">Thirteen hands-on labs spanning offensive security, blue-team detection, DFIR, SIEM, email security, and web/TLS — built and run from scratch.</div>
+    <div class="psub">Fourteen hands-on labs spanning offensive security, blue-team detection, DFIR, SIEM, email security, and web/TLS — built and run from scratch.</div>
   </div>
 </div>
 
 <div class="filters">
-  <button class="filter-btn active" onclick="filterLabs('all',this)">all (13)</button>
+  <button class="filter-btn active" onclick="filterLabs('all',this)">all (14)</button>
   <button class="filter-btn" onclick="filterLabs('offensive',this)">offensive</button>
   <button class="filter-btn" onclick="filterLabs('defensive',this)">defensive / blue</button>
   <button class="filter-btn" onclick="filterLabs('forensics',this)">forensics / dfir</button>
@@ -661,6 +661,58 @@ main.wrap { max-width: 1080px; }
       <div class="info-block">
         <div class="info-label">Pairs With</div>
         <div class="info-content">Lab 12 (Web App Audit) — same attack classes, defender's view. Offense and defense on one event chain.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LAB 14 ═══════════ -->
+<div class="lab" data-tags="forensics defensive">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num">14</div>
+    <div class="lab-title-block">
+      <div class="lab-title">Memory Forensics — Zeus / Zbot Trojan</div>
+      <div class="lab-tags">
+        <span class="tag tag-forensics">Forensics</span>
+        <span class="tag tag-defensive">Defensive</span>
+      </div>
+      <div class="lab-core">Analysed a 128 MB Windows XP memory image where every process looked legitimate — uncovered a banking trojan by pivoting from "what it looks like" to "what it does", then proving code injection in memory.</div>
+    </div>
+  </div>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"I was given a 128 MB Windows XP memory image. Standard process-tree analysis found nothing — names, paths, and parents were all legitimate, because Zeus hides by injecting into real processes. So I pivoted to behaviour: connscan showed svchost (PID 856) talking to a C2 server, which it has no business doing. malfind then proved injected code — an RWX private region starting with an MZ header. I extracted it with vaddump (not procdump, which only rebuilds the clean host shell) and confirmed Zeus/Zbot at 63 of 71 on VirusTotal. Following the persistence file led me to a second injected process, winlogon. The verdict came from the evidence chain, not the AV score."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block">
+        <div class="info-label">Evidence</div>
+        <div class="info-content">zeus.vmem — 128 MB raw image<br>Profile: WinXPSP2x86 · host BILLY-DB5B96DD3<br>Sample: public Zeus image (Malware Analyst's Cookbook)</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Tools</div>
+        <div class="info-content mono">Volatility 2.6.1 (Vol2 required — legacy XP)<br>imageinfo · pslist · psscan · connscan<br>malfind · procdump · vaddump · printkey · handles</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Investigation Chain</div>
+        <div class="info-content">
+          <span class="mitre">C2</span> svchost (856) → 193.104.41.75:80 (connscan)<br>
+          <span class="mitre">Injection #1</span> RWX + MZ @ 0xb70000 in svchost (malfind)<br>
+          <span class="mitre">Persistence</span> Winlogon\Userinit += sdra64.exe (printkey)<br>
+          <span class="mitre">Injection #2</span> RWX + MZ @ 0xae0000 in winlogon (632), found via filescan→handles
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Key Distinction</div>
+        <div class="info-content">procdump rebuilt the clean svchost shell (0/71). Only vaddump of the injected region extracted the payload — 63/71, Zeus/Zbot.</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Outcome</div>
+        <div class="info-content">Trojan identified and confirmed from native memory artefacts. Full IOC set + chain-of-custody discipline (dumps never executed or moved off-host).</div>
       </div>
     </div>
   </div>
