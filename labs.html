@@ -95,12 +95,12 @@ main.wrap { max-width: 1080px; }
 
 <div class="labs-profile">
   <div>
-    <div class="psub">Fourteen hands-on labs spanning offensive security, blue-team detection, DFIR, SIEM, email security, and web/TLS — built and run from scratch.</div>
+    <div class="psub">Fifteen hands-on labs spanning offensive security, blue-team detection, DFIR, SIEM, email security, and web/TLS — built and run from scratch.</div>
   </div>
 </div>
 
 <div class="filters">
-  <button class="filter-btn active" onclick="filterLabs('all',this)">all (14)</button>
+  <button class="filter-btn active" onclick="filterLabs('all',this)">all (15)</button>
   <button class="filter-btn" onclick="filterLabs('offensive',this)">offensive</button>
   <button class="filter-btn" onclick="filterLabs('defensive',this)">defensive / blue</button>
   <button class="filter-btn" onclick="filterLabs('forensics',this)">forensics / dfir</button>
@@ -727,6 +727,58 @@ main.wrap { max-width: 1080px; }
       <div class="info-block">
         <div class="info-label">Outcome</div>
         <div class="info-content">Trojan identified and confirmed from native memory artefacts. Full IOC set + chain-of-custody discipline (dumps never executed or moved off-host).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LAB 15 ═══════════ -->
+<div class="lab" data-tags="defensive network">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num">15</div>
+    <div class="lab-title-block">
+      <div class="lab-title">Pi-hole DNS Sinkhole — Hardened Home Lab</div>
+      <div class="lab-tags">
+        <span class="tag tag-defensive">Defensive</span>
+        <span class="tag tag-network">Network</span>
+      </div>
+      <div class="lab-core">Built and hardened a network-wide DNS filtering server on a Raspberry Pi 5 — 2.3M-domain blocklist, key-only SSH, firewall, fail2ban — and verified the attack surface with an external port scan. Blocks ~24% of queries, including Microsoft/Edge telemetry.</div>
+    </div>
+  </div>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"I stood up a Pi-hole DNS sinkhole on a Raspberry Pi 5 and hardened it like a production server: key-only SSH on a non-default port, UFW default-deny, fail2ban, and unattended security updates. It filters a 2.3-million-domain blocklist network-wide — around 24% of queries blocked, including Microsoft and Edge telemetry endpoints I confirmed in the query log. I reserved a static IP, wrote failover DNS scripts for my laptop, and verified the whole thing wasn't an exposed open resolver with an external GRC ShieldsUP! scan — all 1056 ports came back stealth."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block">
+        <div class="info-label">Environment</div>
+        <div class="info-content">Raspberry Pi 5 (4GB) · Raspberry Pi OS Lite 64-bit<br>Swisscom Internet-Box network · headless</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Stack</div>
+        <div class="info-content mono">Pi-hole v6 · Quad9 upstream (DNSSEC)<br>UFW · fail2ban · unattended-upgrades<br>OISD · HaGeZi multi/TIF · WindowsSpyBlocker</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Hardening Verified</div>
+        <div class="info-content">
+          <span class="mitre">SSH</span> key-only · port 2222 · root login disabled<br>
+          <span class="mitre">Firewall</span> UFW default-deny inbound · only 2222/53/80 open<br>
+          <span class="mitre">Brute-force</span> fail2ban (systemd backend) · auto security updates<br>
+          <span class="mitre">Attack surface</span> GRC ShieldsUP! — 1056/1056 ports stealth, not an open resolver
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Telemetry Blocked</div>
+        <div class="info-content">Confirmed + attributed in query log: vortex.data.microsoft.com, telemetry.microsoft.com, browser.events.data.msn.com, g.live.com — blocked on A and AAAA.</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Outcome / Next</div>
+        <div class="info-content">Phase 1 complete: 2.27M unique domains, static IP, reboot-verified. Phase 2: Unbound recursive resolver + household DHCP rollout.</div>
       </div>
     </div>
   </div>
