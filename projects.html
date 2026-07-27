@@ -1,0 +1,207 @@
+---
+layout: default
+title: Projects
+permalink: /projects/
+---
+
+<style>
+/* widen the page container just for /labs/ */
+main.wrap { max-width: 1080px; }
+
+/* ===== labs page — terminal reskin ===== */
+.labs-hero { padding: 46px 0 22px; }
+.labs-hero .prompt { color: var(--dim); font-size: 13px; }
+.labs-hero .prompt .g { color: var(--green-dim); }
+.labs-hero .prompt .p { color: var(--green); }
+.labs-hero h1 { font-size: 26px; color: var(--heading); margin: 12px 0 2px; letter-spacing: -.5px; }
+.labs-hero h1 em { font-style: normal; color: var(--green); }
+.labs-hero .subtitle { font-size: 12px; color: var(--dim); margin-bottom: 18px; }
+.labs-stats { display: flex; gap: 26px; flex-wrap: wrap; font-size: 12.5px; color: var(--dim); }
+.labs-stats b { color: var(--amber); font-weight: 700; font-size: 17px; }
+
+.labs-profile { background: var(--bg2); border: 1px solid var(--line); border-radius: 8px;
+  padding: 12px 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+.labs-profile .pname { font-size: 14px; font-weight: 700; color: var(--heading); }
+.labs-profile .psub { font-size: 12px; color: var(--dim); margin-top: 2px; }
+.labs-profile .plinks { display: flex; gap: 8px; flex-wrap: wrap; }
+.labs-profile .plink { font-size: 11px; color: var(--green); text-decoration: none;
+  border: 1px solid var(--green-dim); padding: 3px 10px; border-radius: 4px; }
+.labs-profile .plink:hover { background: rgba(74,222,128,.08); text-decoration: none; }
+.labs-profile .pnote { font-size: 10.5px; color: var(--dim); margin-left: auto; }
+
+/* filters */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 22px 0 18px; }
+.filter-btn { font-family: inherit; font-size: 11px; padding: 5px 12px; border-radius: 20px;
+  border: 1px solid var(--line); background: transparent; color: var(--dim); cursor: pointer;
+  letter-spacing: .04em; text-transform: lowercase; transition: all .15s; }
+.filter-btn:hover, .filter-btn.active { border-color: var(--green-dim); color: var(--green); background: rgba(74,222,128,.06); }
+
+/* lab cards */
+.labs { display: flex; flex-direction: column; gap: 10px; }
+.lab { background: var(--bg2); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; transition: border-color .2s; }
+.lab:hover { border-color: var(--green-dim); }
+.lab-header { display: flex; align-items: flex-start; gap: 14px; padding: 14px 18px 0; cursor: pointer; user-select: none; }
+.lab-num { font-size: 11px; font-weight: 700; color: var(--bg); width: 28px; height: 28px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; background: var(--green) !important; }
+.lab-title-block { flex: 1; }
+.lab-repo { flex-shrink: 0; font-size: 11px; color: var(--green-dim); border: 1px solid var(--green-dim);
+  padding: 2px 9px; border-radius: 4px; margin-top: 2px; white-space: nowrap; text-decoration: none; }
+.lab-repo:hover { color: var(--green); background: rgba(74,222,128,.08); text-decoration: none; }
+.lab-title { font-size: 15px; font-weight: 700; color: var(--heading); margin-bottom: 4px; }
+.lab-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.tag { font-size: 9.5px; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; letter-spacing: .06em;
+  background: rgba(74,222,128,.08); color: var(--green-dim); border: 1px solid var(--green-dim); }
+.tag-offensive { color: var(--red); border-color: var(--red); background: rgba(249,117,131,.08); }
+.tag-defensive, .tag-network { color: var(--green); border-color: var(--green-dim); background: rgba(74,222,128,.08); }
+.tag-forensics { color: var(--amber); border-color: var(--amber); background: rgba(227,179,65,.08); }
+.tag-siem { color: var(--green); border-color: var(--green-dim); background: rgba(74,222,128,.08); }
+.tag-email { color: var(--amber); border-color: var(--amber); background: rgba(227,179,65,.08); }
+.tag-web { color: var(--text); border-color: var(--dim); background: rgba(200,211,200,.06); }
+.lab-core { font-size: 13px; color: var(--text); line-height: 1.65; padding: 0 0 12px 0; border-bottom: 1px solid var(--line); }
+
+.lab-toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 18px; cursor: pointer; user-select: none; }
+.lab-elevator-label { font-size: 10px; color: var(--dim); text-transform: uppercase; letter-spacing: .08em; }
+.lab-chevron { font-size: 11px; color: var(--dim); transition: transform .2s; }
+.lab.open .lab-chevron { transform: rotate(90deg); }
+
+.lab-body { display: none; padding: 0 18px 18px; }
+.lab.open .lab-body { display: block; }
+.elevator-box { background: rgba(74,222,128,.04); border: 1px solid var(--green-dim); border-radius: 8px; padding: 12px 14px; margin-bottom: 14px; }
+.elevator-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: .12em; color: var(--green); margin-bottom: 6px; }
+.elevator-text { font-size: 13px; color: var(--text); line-height: 1.65; font-style: italic; }
+
+.lab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 640px) { .lab-grid { grid-template-columns: 1fr; } }
+.info-block { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.info-block.full { grid-column: 1 / -1; }
+.info-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: .12em; color: var(--dim); margin-bottom: 5px; }
+.info-content { font-size: 12px; color: var(--text); line-height: 1.6; }
+.info-content.mono { font-size: 11.5px; color: var(--green); line-height: 1.8; }
+.finding { display: flex; align-items: flex-start; gap: 8px; padding: 4px 0; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--text); }
+.finding:last-child { border-bottom: none; }
+.mitre { font-size: 10px; background: rgba(227,179,65,.08); color: var(--amber); border: 1px solid var(--amber); padding: 2px 8px; border-radius: 4px; display: inline-block; margin: 2px 2px 2px 0; }
+
+.labs-toolbar { margin: 22px 0 0; display: flex; justify-content: flex-end; }
+.expand-all-btn { font-family: inherit; font-size: 11px; background: transparent; border: 1px solid var(--line);
+  color: var(--dim); padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all .15s; }
+.expand-all-btn:hover { border-color: var(--green-dim); color: var(--green); }
+</style>
+
+<section class="labs-hero">
+  <div class="prompt"><span class="g">jaalso@kali</span>:<span class="p">~</span>$ ls -la projects/</div>
+  <h1>Projects &amp; Tools <em>— standing capabilities I built</em></h1>
+  <div class="subtitle">not one-off exercises — tools and systems I built and use, with defined purpose and real output</div>
+</section>
+
+<div class="labs-profile">
+  <div>
+    <div class="psub">Two standing capabilities: an automated Windows triage tool that codifies a manual IR process into one script, and a structured 7-layer CTI intelligence system. Each has produced a real result, not just a demo.</div>
+  </div>
+</div>
+
+<div class="labs" id="labs">
+
+<!-- ═══════════ PROJECT 1 · Windows Triage Tool (flagship) ═══════════ -->
+<div class="lab" data-tags="tooling">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num">PS</div>
+    <div class="lab-title-block">
+      <div class="lab-title">Automated Windows Triage Tool — Invoke-CompromiseCheck.ps1 ⭐</div>
+      <div class="lab-tags">
+        <span class="tag tag-defensive">PowerShell</span>
+        <span class="tag tag-forensics">DFIR</span>
+        <span class="tag tag-siem">IR Tooling</span>
+      </div>
+      <div class="lab-core">Codified ~20 manual PowerShell IR commands into one portable script — 20 forensic sections in 13 seconds, colour-coded severity, timestamped report. During development it surfaced a real Defender false-positive that Microsoft later acknowledged worldwide.</div>
+    </div>
+  </div>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"After manually running about 20 PowerShell commands every time I had a compromise concern on a Windows host, I codified the whole methodology into one portable script. Run it as Administrator and it checks 20 forensic sections in 13 seconds — RDP logon detection, failed-logon analysis with audit-policy verification, Defender signature freshness and threat history, suspicious PowerShell patterns like EncodedCommand and IEX, hosts-file tampering, remote-access-software inventory — with tiered severity output and a timestamped report. There's a quick mode too: 8 highest-signal checks in under 60 seconds."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block full">
+        <div class="info-label">🔦 The killer finding — lead with this</div>
+        <div class="info-content">During development, the tool's threat-history section surfaced a real Defender false-positive that Microsoft publicly acknowledged and fixed: the worldwide incident where a signature update flagged two legitimate DigiCert root CAs as <span class="mitre">Trojan:Win32/Cerdigent.A!dha</span> and quarantined them, corrected in signature <span class="mitre">1.449.430</span>. Raw <span class="mitre">Get-MpThreatDetection</span> output buries this — Section 15 made it immediately legible. A real false-positive, surfaced by my own tooling.</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Key checks (20 sections)</div>
+        <div class="info-content">RDP-specific logon detection (LogonType 10, active + historical) · failed-logon analysis with audit-policy verification (catches "empty result = audit disabled") · Defender signature freshness + full-scan age + threat history · suspicious PowerShell patterns (-EncodedCommand, IEX, Net.WebClient) · hosts-file tampering + DNS cache · remote-access-software inventory (TeamViewer, AnyDesk, VNC, RustDesk, ScreenConnect)</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Tools / Platform</div>
+        <div class="info-content mono">PowerShell 5.1+ &amp; 7+ · CIM/WMI<br>Windows Event Log · MpComputerStatus<br>net localgroup · auditpol<br>Win 10/11 · Server 2016+</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Why it matters</div>
+        <div class="info-content">Turns a 20-command manual process into a 13-second script — the automation instinct JDs mean by "reduce manual work" — and the audit-policy check ("empty result = not logging, not 'nothing happened'") shows real detection-engineering depth.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PROJECT 2 · CTI Dashboard ═══════════ -->
+<div class="lab" data-tags="tooling">
+  <div class="lab-header" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-num">CTI</div>
+    <div class="lab-title-block">
+      <div class="lab-title">CTI Dashboard — 7-Layer Threat Intelligence System</div>
+      <div class="lab-tags">
+        <span class="tag tag-siem">CTI</span>
+        <span class="tag tag-defensive">Threat Intel</span>
+      </div>
+      <div class="lab-core">A working 7-layer CTI dashboard in Inoreader (63 feeds) covering professional intelligence (L1–6) plus daily-life breach awareness (L7), with a DACH regional layer. The standing system behind the Storm-1865 triage — read daily.</div>
+    </div>
+  </div>
+  <a class="lab-repo" href="https://github.com/jaalso/security-research" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="See the Storm-1865 case this system produced">github ↗</a>
+  <div class="lab-toggle-row" onclick="toggle(this.closest('.lab'))">
+    <div class="lab-elevator-label">▸ expand for 30-sec pitch + details</div>
+    <div class="lab-chevron">▶</div>
+  </div>
+  <div class="lab-body">
+    <div class="elevator-box">
+      <div class="elevator-label">30-second interview pitch</div>
+      <div class="elevator-text">"I built a seven-layer CTI dashboard in Inoreader — 63 feeds organized by purpose, not just a pile of RSS. Each layer answers a specific question at a specific cadence: news daily, IOCs and CVEs daily, hunt queries weekly, actor context weekly, reference on-demand, community weekly, and a daily-life breach-awareness layer, plus a DACH regional layer for Swiss and German coverage. It's not a one-off — I read it every day, and it's the system I used to triage the Storm-1865 phishing campaign."</div>
+    </div>
+    <div class="lab-grid">
+      <div class="info-block full">
+        <div class="info-label">The 7 layers — each answers a question at a cadence</div>
+        <div class="info-content">L1 News (what's happening — daily) · L2 IOCs/CVEs (what to detect — daily) · L3 Hunt Queries (how to hunt — weekly) · L4 Actor Context (who/why — weekly) · L5 Reference (bookmarks — on-demand) · L6 Community (learning — weekly) · L7 Daily-life / Breach Awareness (is this scam real? — daily) · + DACH region (Swiss/German — daily)</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Tools</div>
+        <div class="info-content mono">Inoreader (63 feeds, OPML-managed)<br>AlienVault OTX API · abuse.ch<br>MITRE ATT&amp;CK</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Proof it works</div>
+        <div class="info-content">This is the answer to "how do you stay current on threats?" — a structured system with defined cadences, not "I read the news." It produced a real result: the <a href="/writeups/">Storm-1865 triage</a> → NCSC acknowledgment.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end labs -->
+<script>
+function toggle(lab) { lab.classList.toggle('open'); }
+
+let allOpen = false;
+function expandAllLabs() {
+  allOpen = !allOpen;
+  document.querySelectorAll('.lab').forEach(l => allOpen ? l.classList.add('open') : l.classList.remove('open'));
+  document.getElementById('expand-btn').textContent = allOpen ? 'collapse all ▲' : 'expand all ▼';
+}
+
+function filterLabs(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.lab').forEach(lab => {
+    if (type === 'all') { lab.style.display = ''; return; }
+    lab.style.display = (lab.dataset.tags || '').includes(type) ? '' : 'none';
+  });
+}
+</script>
