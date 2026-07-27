@@ -297,7 +297,7 @@ main.wrap { max-width: 1080px; }
         <span class="tag tag-siem">SIEM / XDR</span>
         <span class="tag tag-defensive">Defensive</span>
       </div>
-      <div class="lab-core">Set up a real SIEM at home, connected Kali as a monitored endpoint, and watched my own activity show up as MITRE ATT&CK-tagged security alerts.</div>
+      <div class="lab-core">Deployed a real SIEM at home, enrolled Kali as a monitored endpoint in ~30 seconds, benchmarked it against 190 CIS controls, and watched my own tooling surface as MITRE ATT&CK-tagged alerts.</div>
     </div>
     <a class="lab-repo" href="https://github.com/jaalso/blue-team-labs" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View source on GitHub">github ↗</a>
   </div>
@@ -308,24 +308,36 @@ main.wrap { max-width: 1080px; }
   <div class="lab-body">
     <div class="elevator-box">
       <div class="elevator-label">30-second interview pitch</div>
-      <div class="elevator-text">"I deployed Wazuh SIEM/XDR, enrolled Kali as an agent, and ran the full capability suite. Diagnosed a real service failure — indexer RAM saturation causing manager timeout — fixed with systemd delay. Results: 258 MITRE-tagged events, 190-control CIS Benchmark at 45%, 7,958 files under FIM, one High CVE. Architecturally identical to Microsoft Sentinel or Splunk."</div>
+      <div class="elevator-text">"I deployed Wazuh SIEM/XDR from the OVA on a host-only network and enrolled Kali as an agent — live in about 30 seconds. I diagnosed a real service failure (the indexer saturating RAM and timing out the manager on boot) and fixed it in the systemd unit, then ran a 190-control CIS benchmark at 45% cross-mapped to ISO 27001, NIST 800-53 and PCI-DSS, put 7,958 files under FIM, captured 258 MITRE-tagged events, and surfaced five real CVEs on the endpoint (two of them RCE at CVSS 8.8). The sharpest finding: running normal Kali tools tripped Defense Evasion, Privilege Escalation and Initial Access alerts — exactly how a SOC catches red-team activity."</div>
     </div>
     <div class="lab-grid">
       <div class="info-block">
-        <div class="info-label">Platform</div>
-        <div class="info-content">Wazuh v4.14.3 OVA · 192.168.56.105<br>Kali-attacker agent · ID 001</div>
+        <div class="info-label">Environment</div>
+        <div class="info-content">Wazuh v4.14.3 OVA on VirtualBox · host-only lab network<br>Kali agent enrolled in ~30s · ID 001</div>
       </div>
       <div class="info-block">
+        <div class="info-label">Tools</div>
+        <div class="info-content mono">VirtualBox · SSH · systemctl<br>wget · dpkg · nmap</div>
+      </div>
+      <div class="info-block full">
         <div class="info-label">Results</div>
-        <div class="info-content mono">258 events · 45% CIS · 7,958 files<br>1 High CVE · FIM alert triggered</div>
+        <div class="info-content mono">258 MITRE-tagged events · CIS Benchmark 45% (83/190 controls, cross-mapped ISO 27001 / NIST 800-53 / PCI-DSS) · 7,958 files under FIM · 5 CVEs (4 High · 1 Medium)</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">CVEs Detected — Wazuh Vulnerability Detection</div>
+        <div class="info-content">5 CVEs in Kali's pre-installed Python packaging tools. Top two are RCE at CVSS 8.8: <span class="mitre">CVE-2025-47273</span> (setuptools path traversal) and <span class="mitre">CVE-2024-6345</span> (setuptools package-URL injection). Also weasyprint SSRF (7.5), wheel DoS (7.5), setuptools ReDoS (5.9 · Medium).</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">MITRE Detections</div>
+        <div class="info-content"><span class="mitre">T1046</span> Network Service Discovery (nmap) · <span class="mitre">T1548</span> Privilege Escalation (Rule 5402) · <span class="mitre">T1078</span> Valid Accounts (Rule 5501/5502) · <span class="mitre">T1074</span> Data Staged</div>
       </div>
       <div class="info-block">
-        <div class="info-label">MITRE Detections</div>
-        <div class="info-content"><span class="mitre">T1046</span> Network Service Discovery<br><span class="mitre">T1562</span> Defense Evasion<br><span class="mitre">T1078</span> Valid Accounts</div>
+        <div class="info-label">Key Finding</div>
+        <div class="info-content">Running standard Kali tools with the agent live tripped Defense Evasion, Privilege Escalation and Initial Access alerts — the same way enterprise SOCs surface red-team activity.</div>
       </div>
       <div class="info-block">
         <div class="info-label">Problem Solved</div>
-        <div class="info-content">wazuh-manager timeout on boot. Root cause: indexer RAM saturation. Fix: ExecStartPre=/bin/sleep 30 in systemd unit file.</div>
+        <div class="info-content">wazuh-manager timeout on boot. Root cause: indexer RAM saturation. Fix: ExecStartPre=/bin/sleep 30 in the systemd unit.</div>
       </div>
     </div>
   </div>
