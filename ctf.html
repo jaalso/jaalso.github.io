@@ -1,0 +1,127 @@
+---
+layout: default
+title: CTF & Box
+permalink: /ctf/
+---
+<section class="hero" style="padding-bottom:18px">
+  <div class="prompt"><span class="g">{{ site.github_user }}@kali</span>:<span class="p">~</span>$ ls -la ctf/</div>
+  <h1 style="font-size:24px;margin-top:12px">CTF &amp; Box</h1>
+  <p>Platform labs, CTF challenges, and boxes I've solved on PortSwigger, OWASP Juice Shop,
+  and TryHackMe &mdash; guided practice targets, separate from my own builds under
+  <a href="{{ '/labs/' | relative_url }}">~/labs</a>.</p>
+</section>
+
+<style>
+.ctf-plat { margin-bottom: 28px; }
+.ctf-plat > .plat-name { font-size: 15px; color: var(--green); font-weight: 700; margin-bottom: 3px; }
+.ctf-plat > .plat-meta { font-size: 11.5px; color: var(--dim); margin-bottom: 12px; }
+.ctf-topic { border-left: 2px solid var(--line); padding: 2px 0 2px 16px; margin: 0 0 12px 2px; }
+.ctf-topic .topic-name { font-size: 12px; color: var(--amber); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 5px; }
+.ctf-item { font-size: 13px; color: var(--text); line-height: 1.9; }
+.ctf-item a { color: var(--green); }
+.ctf-item .diff { color: var(--dim); font-size: 11px; }
+.ctf-foot { font-size: 12px; color: var(--dim); margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
+.ctf-foot a { color: var(--green-dim); }
+</style>
+
+<div class="sec">// <span>solved</span></div>
+
+<!-- PortSwigger -->
+<div class="ctf-plat">
+  <div class="plat-name">PortSwigger Web Security Academy</div>
+  <div class="plat-meta">18 labs solved &middot; Apprentice + Practitioner</div>
+
+  <div class="ctf-topic">
+    <div class="topic-name">SQL injection &middot; 5</div>
+    <div class="ctf-item">
+      SQLi in WHERE clause &mdash; retrieving hidden data <span class="diff">apprentice</span><br>
+      SQLi allowing login bypass <span class="diff">apprentice</span><br>
+      Querying DB type &amp; version (MySQL / Microsoft) <span class="diff">practitioner</span><br>
+      UNION attack &mdash; determining number of columns <span class="diff">practitioner</span><br>
+      UNION attack &mdash; finding a column containing text <span class="diff">practitioner</span><br>
+      UNION attack &mdash; retrieving data from other tables <span class="diff">practitioner</span>
+    </div>
+  </div>
+
+  <div class="ctf-topic">
+    <div class="topic-name">Path traversal &middot; 4</div>
+    <div class="ctf-item">
+      File path traversal, simple case <span class="diff">apprentice</span><br>
+      Traversal blocked &mdash; absolute path bypass <span class="diff">practitioner</span><br>
+      Traversal stripped non-recursively <span class="diff">practitioner</span><br>
+      Traversal stripped with superfluous URL-decode <span class="diff">practitioner</span>
+    </div>
+  </div>
+
+  <div class="ctf-topic">
+    <div class="topic-name">Access control &middot; 3</div>
+    <div class="ctf-item">
+      User role controlled by request parameter <span class="diff">apprentice</span><br>
+      Insecure direct object references (IDOR) <span class="diff">apprentice</span><br>
+      Authentication bypass via OAuth implicit flow <span class="diff">apprentice</span>
+    </div>
+  </div>
+
+  <div class="ctf-topic">
+    <div class="topic-name">XSS &middot; 2</div>
+    <div class="ctf-item">
+      Reflected XSS into HTML context, nothing encoded <span class="diff">apprentice</span><br>
+      Stored XSS into HTML context, nothing encoded <span class="diff">apprentice</span>
+    </div>
+  </div>
+
+  <div class="ctf-topic">
+    <div class="topic-name">Auth &middot; CSRF &middot; File upload &middot; 3</div>
+    <div class="ctf-item">
+      Username enumeration via different responses <span class="diff">apprentice</span><br>
+      CSRF vulnerability with no defenses <span class="diff">apprentice</span><br>
+      Remote code execution via web shell upload <span class="diff">apprentice</span>
+    </div>
+  </div>
+</div>
+
+<!-- Juice Shop -->
+<div class="ctf-plat">
+  <div class="plat-name">OWASP Juice Shop</div>
+  <div class="plat-meta">10 challenges solved &middot; self-hosted in Docker, attacked through Burp</div>
+  <div class="ctf-topic">
+    <div class="topic-name">Injection &amp; access control</div>
+    <div class="ctf-item">
+      Login Admin &mdash; SQL injection auth bypass <span class="diff">&#9733;</span><br>
+      Login Bender &mdash; SQLi, target user <span class="diff">&#9733;&#9733;</span><br>
+      Admin Section &mdash; UNION-based SQLi <span class="diff">&#9733;&#9733;</span><br>
+      User Credentials &mdash; forced browsing <span class="diff">&#9733;&#9733;&#9733;</span><br>
+      View Basket &mdash; IDOR <span class="diff">&#9733;&#9733;</span><br>
+      DOM XSS <span class="diff">&#9733;</span><br>
+      Bonus Payload &mdash; reflected XSS via URL params <span class="diff">&#9733;</span><br>
+      Error Handling &mdash; provoked server error <span class="diff">&#9733;</span><br>
+      Confidential Document &mdash; path access <span class="diff">&#9733;</span><br>
+      Privacy Policy <span class="diff">&#9733;</span>
+    </div>
+  </div>
+</div>
+
+<!-- TryHackMe -->
+<div class="ctf-plat">
+  <div class="plat-name">TryHackMe</div>
+  <div class="plat-meta">Active Directory rooms completed</div>
+  <div class="ctf-topic">
+    <div class="topic-name">Active Directory exploitation</div>
+    <div class="ctf-item">
+      <a href="https://tryhackme.com/room/attacktivedirectory" target="_blank" rel="noopener">Attacktive Directory</a> &mdash; exploiting a vulnerable Domain Controller <span class="diff">medium</span><br>
+      <a href="https://tryhackme.com/room/exploitingad" target="_blank" rel="noopener">Exploiting Active Directory</a> &mdash; common AD attack techniques <span class="diff">medium</span>
+    </div>
+  </div>
+</div>
+
+<!-- HTB placeholder -->
+<div class="ctf-plat">
+  <div class="plat-name" style="color:var(--dim)">Hack The Box</div>
+  <div class="plat-meta">retired boxes land here as I complete them &mdash; profile active</div>
+</div>
+
+<div class="ctf-foot">
+  Profiles:
+  <a href="https://tryhackme.com/p/jaalsove" target="_blank" rel="noopener">TryHackMe &#8599;</a> &middot;
+  <a href="https://profile.hackthebox.com/profile/019c9973-b580-718e-adda-fcdc2795deb3" target="_blank" rel="noopener">Hack The Box &#8599;</a>
+</div>

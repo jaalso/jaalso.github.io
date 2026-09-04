@@ -2,64 +2,278 @@
 layout: default
 title: Home
 ---
-<section class="hero">
-  <div class="prompt"><span class="g">{{ site.github_user }}@kali</span>:<span class="p">~</span>$ whoami</div>
-  <h1>Breaking into offensive &amp; defensive security</h1>
-  <div class="role">Cyber Security Specialist · Jaime · Zürich, CH</div>
-  <p>Eight years in IT infrastructure (banking &amp; enterprise), now transitioning into
-  offensive and defensive security. This is where I publish lab write-ups, CTF solutions,
-  and notes — the honest version, with tutorials credited where followed.</p>
 
-  <div class="stats">
-    <span><b>{{ site.posts | size }}</b> write-ups</span>
-    <span><b>15</b> labs</span>
-    <span><b>6</b> repos</span>
-    <span><b>1</b> NCSC.ch acknowledgment</span>
-  </div>
+<style>
+/* homepage sections — matched to the site terminal theme (14px / 860px) */
+.hm-hero { padding: 50px 0 24px; }
+.hm-hero .prompt { color: var(--dim); font-size: 13px; }
+.hm-hero .prompt .g { color: var(--green-dim); } .hm-hero .prompt .p { color: var(--green); }
+.hm-hero h1 { font-size: 30px; color: var(--heading); font-weight: 700; margin: 14px 0 4px; letter-spacing: -.5px; }
+.hm-hero .roles { font-size: 15px; color: var(--green); margin-bottom: 18px; min-height: 1.5em; }
+.hm-hero .roles #hm-typed { color: var(--green); }
+.hm-cursor { display:inline-block; width:.55ch; height:1em; background:var(--green); vertical-align:-1px; margin-left:3px; box-shadow:0 0 8px rgba(74,222,128,.5); animation:hmblink 1.1s steps(1) infinite; }
+@keyframes hmblink { 50% { opacity:0; } }
+.hm-hero .intro { font-size: 13.5px; color: var(--text); line-height: 1.75; max-width: 640px; margin-bottom: 20px; }
+.hm-cta { display:inline-block; font-size:13px; color:var(--green); border:1px solid var(--green-dim); padding:8px 16px; border-radius:5px; }
+.hm-cta:hover { background:rgba(74,222,128,.08); text-decoration:none; }
+.hm-stats { display:flex; gap:34px; flex-wrap:wrap; margin:28px 0 6px; padding-top:24px; border-top:1px solid var(--line); }
+.hm-stats .n { font-size:26px; font-weight:700; color:var(--amber); line-height:1; text-shadow:0 0 16px rgba(227,179,65,.30); }
+.hm-stats .l { font-size:12px; color:var(--dim); margin-top:6px; }
 
-  <div class="stats" style="margin-top:12px">
-    <span><b>CSP</b> · completed</span>
-    <span><b>CSS EFA</b> · in progress</span>
-    <span><b>CEH</b> · in progress</span>
+.hm-section { padding:42px 0 6px; border-top:1px solid var(--line); margin-top:38px; }
+.hm-label { font-size:12px; color:var(--green); letter-spacing:.5px; margin-bottom:10px; }
+.hm-label::before { content:"// "; color:var(--dim); }
+.hm-h2 { font-size:22px; color:var(--heading); margin-bottom:6px; letter-spacing:-.3px; }
+.hm-sub { font-size:13px; color:var(--dim); margin-bottom:24px; max-width:620px; }
+
+.hm-thesis { font-size:16px; color:var(--text); line-height:1.6; border-left:3px solid var(--green-dim); background:var(--bg2); padding:10px 16px; margin:6px 0 26px; }
+.hm-thesis em { color:var(--green); font-style:normal; }
+.hm-beats { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+@media(max-width:720px){ .hm-beats{ grid-template-columns:1fr; } }
+.hm-beat h3 { font-size:12.5px; color:var(--green); margin-bottom:8px; text-transform:uppercase; letter-spacing:.06em; }
+.hm-beat p { font-size:13px; color:var(--text); line-height:1.7; }
+
+.hm-tl { display:grid; grid-template-columns:1fr 1fr; gap:34px; }
+@media(max-width:720px){ .hm-tl{ grid-template-columns:1fr; } }
+.hm-tl h4 { font-size:12px; color:var(--dim); text-transform:uppercase; letter-spacing:.1em; margin-bottom:14px; }
+.hm-tl-item { border-left:2px solid var(--line); padding:0 0 18px 16px; position:relative; }
+.hm-tl-item::before { content:""; position:absolute; left:-5px; top:4px; width:8px; height:8px; border-radius:50%; background:var(--green-dim); }
+.hm-tl-item .date { font-size:11.5px; color:var(--amber); }
+.hm-tl-item .org { font-size:14px; color:var(--heading); font-weight:700; margin-top:3px; }
+.hm-tl-item .role { font-size:12.5px; color:var(--green-dim); margin:1px 0 4px; }
+.hm-tl-item .desc { font-size:12px; color:var(--dim); line-height:1.6; }
+
+.hm-finding { background:var(--bg2); border:1px solid var(--line); border-radius:8px; padding:16px 18px; margin-bottom:10px; }
+.hm-finding.lead { border-color:var(--green-dim); }
+.hm-finding .ftop { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:6px; }
+.hm-finding .ftitle { font-size:14.5px; color:var(--heading); font-weight:700; }
+.hm-badge { font-size:10px; text-transform:uppercase; letter-spacing:.06em; padding:2px 8px; border-radius:3px; color:#0a0e0a; font-weight:700; background:var(--green); }
+.hm-badge.amber { color:var(--amber); background:rgba(227,179,65,.08); border:1px solid var(--amber); font-weight:400; }
+.hm-finding .fdesc { font-size:12.5px; color:var(--text); line-height:1.65; margin-bottom:8px; }
+.hm-finding a.view { font-size:12px; color:var(--green); }
+
+.hm-cert-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+@media(max-width:720px){ .hm-cert-grid{ grid-template-columns:1fr; } }
+.hm-cert { background:var(--bg2); border:1px solid var(--line); border-radius:6px; padding:12px 14px; }
+.hm-cert .issuer { font-size:11px; color:var(--dim); text-transform:uppercase; letter-spacing:.06em; }
+.hm-cert .name { font-size:13.5px; color:var(--heading); font-weight:700; margin:3px 0; }
+.hm-cert .meta { font-size:11.5px; color:var(--text); }
+.hm-cert .meta a { color:var(--green); }
+.hm-cert .prog { font-size:11.5px; color:var(--amber); }
+
+.hm-links { display:flex; gap:10px; flex-wrap:wrap; }
+.hm-link { flex:1; min-width:200px; background:var(--bg2); border:1px solid var(--line); border-radius:6px; padding:12px 14px; }
+.hm-link:hover { border-color:var(--green-dim); text-decoration:none; }
+.hm-link .lk-top { font-size:11px; color:var(--dim); text-transform:uppercase; letter-spacing:.05em; }
+.hm-link .lk-main { font-size:13.5px; color:var(--green); margin-top:3px; }
+
+.hm-contact { padding:46px 0 20px; border-top:1px solid var(--line); margin-top:38px; }
+.hm-contact h2 { font-size:26px; color:var(--heading); margin-bottom:8px; }
+.hm-contact p { font-size:13px; color:var(--dim); max-width:560px; margin-bottom:18px; line-height:1.7; }
+</style>
+
+<section class="hm-hero">
+  <div class="prompt"><span class="g">jaalso@kali</span>:<span class="p">~</span>$ whoami</div>
+  <h1>Jaime Soto.</h1>
+  <div class="roles"><span id="hm-typed"></span><span class="hm-cursor"></span></div>
+  <p class="intro">Eight years operating enterprise infrastructure in regulated and multinational environments — a Swiss private bank, Microsoft, international schools — now moving into security engineering and offensive security. I build labs, investigate real-world threats, and document everything I learn.</p>
+  <a class="hm-cta" href="#findings">Explore my work ↓</a>
+
+  <div class="hm-stats">
+    <div><div class="n">15</div><div class="l">Hands-on labs</div></div>
+    <div><div class="n">3</div><div class="l">Research write-ups</div></div>
+    <div><div class="n">5</div><div class="l">Certifications</div></div>
+    <div><div class="n">1</div><div class="l">NCSC acknowledgment</div></div>
   </div>
 </section>
 
-<div class="sec">// <span>cat</span> latest.log</div>
-
-{% for post in site.posts limit:6 %}
-<article class="post-item">
-  {% if post.featured %}<span class="badge">FEATURED</span>{% endif %}
-  <div class="date">{{ post.date | date: "%Y-%m" }}{% if post.category %} · {{ post.category }}{% endif %}</div>
-  <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-  <p>{{ post.excerpt | strip_html | truncate: 200 }}</p>
-  {% if post.tags.size > 0 %}
-  <div class="tags">
-    {% for tag in post.tags %}<a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a>{% endfor %}
+<section class="hm-section">
+  <div class="hm-label">About me</div>
+  <div class="hm-h2">Eight years running infrastructure taught me <em>how it breaks.</em></div>
+  <div class="hm-thesis">Keeping enterprise systems alive is the fastest way to learn exactly where — and how — they fail.</div>
+  <div class="hm-beats">
+    <div class="hm-beat">
+      <h3>The path</h3>
+      <p>My career began in IT operations and infrastructure — running Active Directory, endpoint security, and identity systems for a FINMA-regulated Swiss bank, Microsoft Switzerland, and international schools. I learned how enterprise environments are really built, secured, and where they quietly fail.</p>
+    </div>
+    <div class="hm-beat">
+      <h3>The transition</h3>
+      <p>I'm now completing a federal Cybersecurity Specialist diploma at the Swiss Cyber Institute, with CEH in progress. I moved deliberately from keeping systems running to understanding how they're attacked and defended — the two halves of the same problem.</p>
+    </div>
+    <div class="hm-beat">
+      <h3>Hands-on practice</h3>
+      <p>I build and document my own labs — SIEM deployment, DFIR reconstruction, memory forensics, web-app security — investigate real-world threats, and practice on Hack The Box, TryHackMe, PortSwigger, and CyberDefenders. I learn by doing and write up what I find.</p>
+    </div>
   </div>
-  {% endif %}
-</article>
-{% endfor %}
+</section>
 
-<div class="sec" style="margin-top:30px"><a href="{{ '/writeups/' | relative_url }}">→ all write-ups &amp; linked repos</a></div>
+<section class="hm-section">
+  <div class="hm-label">Background</div>
+  <div class="hm-h2">Experience &amp; education</div>
+  <div class="hm-sub">Professional infrastructure and security roles, and the training behind the transition.</div>
+  <div class="hm-tl">
+    <div>
+      <h4>Experience</h4>
+      <div class="hm-tl-item">
+        <div class="date">Apr 2022 — Dec 2025</div>
+        <div class="org">Schroder &amp; Co Bank AG</div>
+        <div class="role">IT Infrastructure Engineer / System Administrator</div>
+        <div class="desc">AD identity lifecycle, Microsoft Defender for Endpoint, Intune, certificate-based auth and PowerShell automation across 400+ users in a FINMA-regulated Swiss private bank.</div>
+      </div>
+      <div class="hm-tl-item">
+        <div class="date">Jun 2020 — Jan 2022</div>
+        <div class="org">Microsoft Switzerland</div>
+        <div class="role">IT Program Manager</div>
+        <div class="desc">Endpoint security and compliance for 3,000+ devices via Intune; privileged-account support for C-suite; rated 'sehr gut' across all areas.</div>
+      </div>
+      <div class="hm-tl-item">
+        <div class="date">Oct 2019 — Oct 2020</div>
+        <div class="org">International School Basel</div>
+        <div class="role">IT Support Engineer</div>
+        <div class="desc">Active Directory &amp; Group Policy and endpoint hardening across Windows, macOS and ChromeOS — 2,000+ computers, 3 campuses.</div>
+      </div>
+    </div>
+    <div>
+      <h4>Education &amp; certifications</h4>
+      <div class="hm-tl-item">
+        <div class="date">2025 — 2026 · in progress</div>
+        <div class="org">Swiss Cyber Institute</div>
+        <div class="role">Cybersecurity Specialist — Federal Diploma</div>
+        <div class="desc">Federal Cybersecurity Specialist track; CEH in progress alongside.</div>
+      </div>
+      <div class="hm-tl-item">
+        <div class="date">Dec 2025</div>
+        <div class="org">Swiss Cyber Institute</div>
+        <div class="role">Certified Security Professional (CSP)</div>
+      </div>
+      <div class="hm-tl-item">
+        <div class="date">Jul 2026</div>
+        <div class="org">Google</div>
+        <div class="role">Google Cybersecurity Professional Certificate</div>
+      </div>
+      <div class="hm-tl-item">
+        <div class="date">Feb 2023</div>
+        <div class="org">Microsoft</div>
+        <div class="role">Azure Fundamentals (AZ-900)</div>
+      </div>
+      <div class="hm-tl-item">
+        <div class="date">2013 — 2015</div>
+        <div class="org">SENA · Colombia</div>
+        <div class="role">Técnico en Mantenimiento de Equipos de Cómputo</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<div class="sec" style="margin-top:48px">// <span>ls</span> labs/</div>
-<p style="font-size:13.5px;color:var(--text);max-width:660px;margin-bottom:6px">
-15 hands-on labs across offensive, blue-team, DFIR, SIEM, email security, and web/TLS —
-each with a 30-second interview pitch, the environment, tools, CVEs, and outcomes. Built
-and run in isolated VirtualBox environments.
-</p>
+<section class="hm-section" id="findings">
+  <div class="hm-label">Security research</div>
+  <div class="hm-h2">Validated findings</div>
+  <div class="hm-sub">Investigations documented and, where applicable, reported through responsible disclosure.</div>
 
-<article class="post-item">
-  <div class="date">offensive · forensics</div>
-  <h2><a href="{{ '/labs/' | relative_url }}">SMB Pentest — Full Compromise + Forensic Reconstruction</a></h2>
-</article>
-<article class="post-item">
-  <div class="date">defensive · siem</div>
-  <h2><a href="{{ '/labs/' | relative_url }}">SIEM &amp; Endpoint Detection — Wazuh</a></h2>
-</article>
-<article class="post-item">
-  <div class="date">forensics · dfir</div>
-  <h2><a href="{{ '/labs/' | relative_url }}">Windows DFIR &amp; SOC Analyst — KAPE Triage</a></h2>
-</article>
+  <div class="hm-finding lead">
+    <div class="ftop">
+      <span class="ftitle">Storm-1865 Phishing Triage</span>
+      <span class="hm-badge">NCSC acknowledged · ref RNR-277766</span>
+    </div>
+    <div class="fdesc">Investigated a live phishing campaign targeting a Swiss resident, mapped the TTPs to MITRE ATT&amp;CK, and reported it to NCSC Switzerland — who validated the attribution and acknowledged the IOC for downstream blocklisting.</div>
+    <a class="view" href="{{ '/writeups/' | relative_url }}">View write-up ↗</a>
+  </div>
 
-<div class="sec" style="margin-top:30px"><a href="{{ '/labs/' | relative_url }}">→ browse all 15 labs</a></div>
+  <div class="hm-finding">
+    <div class="ftop">
+      <span class="ftitle">BrowserGate — LinkedIn Browser Fingerprinting</span>
+      <span class="hm-badge amber">Threat verification · privacy</span>
+    </div>
+    <div class="fdesc">Independently verified a disclosed privacy vulnerability with Chrome DevTools, confirmed the data leaving the browser, then measured a working mitigation.</div>
+    <a class="view" href="{{ '/writeups/' | relative_url }}">View write-up ↗</a>
+  </div>
+
+  <div class="hm-finding">
+    <div class="ftop">
+      <span class="ftitle">Windows Telemetry — DNS Sinkhole Analysis</span>
+      <span class="hm-badge amber">Privacy · DNS</span>
+    </div>
+    <div class="fdesc">Documented what a personal Windows host sends to Microsoft at the DNS layer, attributed each endpoint, and blocked it network-wide.</div>
+    <a class="view" href="{{ '/writeups/' | relative_url }}">View write-up ↗</a>
+  </div>
+</section>
+
+<section class="hm-section">
+  <div class="hm-label">Technical training</div>
+  <div class="hm-h2">Certifications</div>
+  <div class="hm-sub">Federal diploma track, offensive and defensive training, and foundational certifications — verifiable where a public link exists.</div>
+  <div class="hm-cert-grid">
+    <div class="hm-cert">
+      <div class="issuer">Swiss Cyber Institute</div>
+      <div class="name">Cybersecurity Specialist — Federal Diploma</div>
+      <div class="prog">In progress · expected Nov 2026</div>
+    </div>
+    <div class="hm-cert">
+      <div class="issuer">EC-Council</div>
+      <div class="name">Certified Ethical Hacker (CEH)</div>
+      <div class="prog">In progress · 2026</div>
+    </div>
+    <div class="hm-cert">
+      <div class="issuer">Swiss Cyber Institute</div>
+      <div class="name">Certified Security Professional (CSP)</div>
+      <div class="meta">Dec 2025 · ID 6943cb4581ae42c96101693d</div>
+    </div>
+    <div class="hm-cert">
+      <div class="issuer">Google</div>
+      <div class="name">Google Cybersecurity Professional</div>
+      <div class="meta">Jul 2026 · <a href="https://coursera.org/verify/professional-cert/KSWVQIU0ASBS" target="_blank" rel="noopener">Verify ↗</a></div>
+    </div>
+    <div class="hm-cert">
+      <div class="issuer">Microsoft</div>
+      <div class="name">Azure Fundamentals (AZ-900)</div>
+      <div class="meta">Feb 2023 · <a href="https://learn.microsoft.com/en-us/users/jaimesoto-0899/certifications/certification-print/certification.azure-fundamentals" target="_blank" rel="noopener">Verify ↗</a></div>
+    </div>
+    <div class="hm-cert">
+      <div class="issuer">Google</div>
+      <div class="name">Google IT Support Professional</div>
+      <div class="meta">Jan 2022 · <a href="https://coursera.org/verify/professional-cert/4LTVQLT9YKGB" target="_blank" rel="noopener">Verify ↗</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="hm-section">
+  <div class="hm-label">Personal documentation</div>
+  <div class="hm-h2">Learn. Test. Document.</div>
+  <div class="hm-sub">A hands-on record of labs, investigations, and practice across offensive and defensive security.</div>
+  <div class="hm-links">
+    <a class="hm-link" href="{{ '/labs/' | relative_url }}"><div class="lk-top">15 documented labs</div><div class="lk-main">~/labs — SIEM, DFIR, forensics, web, identity →</div></a>
+    <a class="hm-link" href="{{ '/writeups/' | relative_url }}"><div class="lk-top">3 investigations</div><div class="lk-main">~/writeups — real-world research →</div></a>
+    <a class="hm-link" href="{{ '/projects/' | relative_url }}"><div class="lk-top">Standing capabilities</div><div class="lk-main">~/projects — tools I built →</div></a>
+    <a class="hm-link" href="{{ '/ctf/' | relative_url }}"><div class="lk-top">CTF &amp; box write-ups</div><div class="lk-main">~/ctf — PortSwigger · Juice Shop · THM →</div></a>
+  </div>
+
+  <div class="hm-links" style="margin-top:12px">
+    <a class="hm-link" href="https://profile.hackthebox.com/profile/019c9973-b580-718e-adda-fcdc2795deb3" target="_blank" rel="noopener"><div class="lk-top">Platform activity</div><div class="lk-main">Hack The Box ↗</div></a>
+    <a class="hm-link" href="https://tryhackme.com/p/jaalsove" target="_blank" rel="noopener"><div class="lk-top">Platform activity</div><div class="lk-main">TryHackMe ↗</div></a>
+  </div>
+</section>
+
+<section class="hm-contact">
+  <div class="hm-label">Contact</div>
+  <h2>Let's talk.</h2>
+  <p>I'm always open to connecting and talking about security engineering, offensive and defensive work, and the move from infrastructure into cyber.</p>
+  <div class="hm-links">
+    <a class="hm-link" href="https://github.com/jaalso" target="_blank" rel="noopener"><div class="lk-top">Code and projects</div><div class="lk-main">GitHub ↗</div></a>
+    <a class="hm-link" href="https://linkedin.com/in/jaalso" target="_blank" rel="noopener"><div class="lk-top">Professional profile</div><div class="lk-main">LinkedIn ↗</div></a>
+  </div>
+</section>
+
+<script>
+(function(){
+  var phrases = ["Infrastructure & Security Engineer","Offensive & Defensive Security","SIEM · DFIR · Web · Identity"];
+  var el = document.getElementById('hm-typed'); if(!el) return;
+  var p=0,i=0,del=false;
+  function t(){
+    var f=phrases[p];
+    if(!del){ el.textContent=f.slice(0,i+1); i++; if(i===f.length){ del=true; return setTimeout(t,1600);} }
+    else { el.textContent=f.slice(0,i-1); i--; if(i===0){ del=false; p=(p+1)%phrases.length; } }
+    setTimeout(t, del?40:70);
+  }
+  t();
+})();
+</script>
