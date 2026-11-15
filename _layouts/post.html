@@ -1,17 +1,47 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} · jaalso</title>
+  <meta name="description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+
+<pre class="banner">
+    _              _
+   (_) __ _  __ _| |___  ___
+   | |/ _` |/ _` | / __|/ _ \
+   | | (_| | (_| | \__ \ (_) |
+  _/ |\__,_|\__,_|_|___/\___/
+ |__/
+</pre>
+
+<nav>
+  <a href="/">index</a>
+  <a href="/about/">about</a>
+  <a href="/labs/">labs</a>
+  <a href="/projects/">projects</a>
+  <a href="/writeups/">writeups</a>
+  <a href="https://github.com/jaalso">github</a>
+</nav>
+
+<h2>writeup</h2>
+<h1 class="post-title">{{ page.title }}</h1>
+<p class="meta">{{ page.date | date: "%Y-%m-%d" }}{% if page.tags and page.tags.size > 0 %} · {{ page.tags | join: ", " }}{% endif %}</p>
+
 <article>
-  <div class="article-head">
-    <div class="date">{{ page.date | date: "%Y-%m-%d" }}{% if page.category %} · {{ page.category }}{% endif %}</div>
-    <h1>{{ page.title }}</h1>
-    {% if page.tags.size > 0 %}
-    <div class="tags">
-      {% for tag in page.tags %}<a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a>{% endfor %}
-    </div>
-    {% endif %}
-  </div>
-  <div class="content">
-    {{ content }}
-  </div>
+{{ content }}
 </article>
+
+<footer>
+  <a href="/writeups/">← all writeups</a> ·
+  <a href="https://github.com/jaalso">github</a> ·
+  <a href="https://www.linkedin.com/in/your-handle">linkedin</a>
+</footer>
+
+</main>
+</body>
+</html>
